@@ -24,6 +24,7 @@ class SQLFiles_E(Enum):
     Rank_Query = 'SQL_lib/Rank_Query.sql'
     Rank_Count_Query = 'SQL_lib/Rank_Count_Query.sql'
     Student_Score_Query = 'SQL_lib/Student_Score_Query.sql'
+    Student_Course_Query = 'SQL_lib/Student_Course_Query.sql'
     NONE = None
 
 def read_sql_file(file_enum: SQLFiles_E):

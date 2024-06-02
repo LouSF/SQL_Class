@@ -15,8 +15,9 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QFont, QFontDatabase, QGradient, QIcon,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
-from PySide6.QtWidgets import (QApplication, QHBoxLayout, QLabel, QPushButton,
-    QSizePolicy, QSpacerItem, QWidget)
+from PySide6.QtWidgets import (QApplication, QHBoxLayout, QHeaderView, QLabel,
+    QPushButton, QSizePolicy, QSpacerItem, QTableView,
+    QVBoxLayout, QWidget)
 import src_rc
 
 class Ui_Students_Windows(object):
@@ -69,9 +70,59 @@ class Ui_Students_Windows(object):
 
         self.label_img = QLabel(Students_Windows)
         self.label_img.setObjectName(u"label_img")
-        self.label_img.setGeometry(QRect(60, 10, 181, 161))
+        self.label_img.setGeometry(QRect(70, -10, 181, 161))
         self.label_img.setPixmap(QPixmap(u":/new/prefix1/img/t_logo.png"))
         self.label_img.setAlignment(Qt.AlignCenter)
+        self.horizontalLayoutWidget_2 = QWidget(Students_Windows)
+        self.horizontalLayoutWidget_2.setObjectName(u"horizontalLayoutWidget_2")
+        self.horizontalLayoutWidget_2.setGeometry(QRect(310, 70, 681, 80))
+        self.horizontalLayout_3 = QHBoxLayout(self.horizontalLayoutWidget_2)
+        self.horizontalLayout_3.setObjectName(u"horizontalLayout_3")
+        self.horizontalLayout_3.setContentsMargins(0, 0, 0, 0)
+        self.Course_Output_Button = QPushButton(self.horizontalLayoutWidget_2)
+        self.Course_Output_Button.setObjectName(u"Course_Output_Button")
+
+        self.horizontalLayout_3.addWidget(self.Course_Output_Button)
+
+        self.Score_Output_Button = QPushButton(self.horizontalLayoutWidget_2)
+        self.Score_Output_Button.setObjectName(u"Score_Output_Button")
+
+        self.horizontalLayout_3.addWidget(self.Score_Output_Button)
+
+        self.verticalLayoutWidget = QWidget(Students_Windows)
+        self.verticalLayoutWidget.setObjectName(u"verticalLayoutWidget")
+        self.verticalLayoutWidget.setGeometry(QRect(10, 160, 481, 531))
+        self.verticalLayout = QVBoxLayout(self.verticalLayoutWidget)
+        self.verticalLayout.setObjectName(u"verticalLayout")
+        self.verticalLayout.setContentsMargins(0, 0, 0, 0)
+        self.label_5 = QLabel(self.verticalLayoutWidget)
+        self.label_5.setObjectName(u"label_5")
+        self.label_5.setAlignment(Qt.AlignCenter)
+
+        self.verticalLayout.addWidget(self.label_5)
+
+        self.Score_tableView = QTableView(self.verticalLayoutWidget)
+        self.Score_tableView.setObjectName(u"Score_tableView")
+
+        self.verticalLayout.addWidget(self.Score_tableView)
+
+        self.verticalLayoutWidget_2 = QWidget(Students_Windows)
+        self.verticalLayoutWidget_2.setObjectName(u"verticalLayoutWidget_2")
+        self.verticalLayoutWidget_2.setGeometry(QRect(510, 160, 481, 531))
+        self.verticalLayout_4 = QVBoxLayout(self.verticalLayoutWidget_2)
+        self.verticalLayout_4.setObjectName(u"verticalLayout_4")
+        self.verticalLayout_4.setContentsMargins(0, 0, 0, 0)
+        self.label_8 = QLabel(self.verticalLayoutWidget_2)
+        self.label_8.setObjectName(u"label_8")
+        self.label_8.setAlignment(Qt.AlignCenter)
+
+        self.verticalLayout_4.addWidget(self.label_8)
+
+        self.Course_tableView = QTableView(self.verticalLayoutWidget_2)
+        self.Course_tableView.setObjectName(u"Course_tableView")
+
+        self.verticalLayout_4.addWidget(self.Course_tableView)
+
 
         self.retranslateUi(Students_Windows)
 
@@ -86,5 +137,9 @@ class Ui_Students_Windows(object):
         self.Rank_label.setText(QCoreApplication.translate("Students_Windows", u"None", None))
         self.Logout_Button.setText(QCoreApplication.translate("Students_Windows", u"Logout", None))
         self.label_img.setText("")
+        self.Course_Output_Button.setText(QCoreApplication.translate("Students_Windows", u"\u5bfc\u51fa\u5f00\u8bfe\u60c5\u51b5", None))
+        self.Score_Output_Button.setText(QCoreApplication.translate("Students_Windows", u"\u5bfc\u51fa\u6210\u7ee9\u60c5\u51b5", None))
+        self.label_5.setText(QCoreApplication.translate("Students_Windows", u"\u6210\u7ee9\u60c5\u51b5", None))
+        self.label_8.setText(QCoreApplication.translate("Students_Windows", u"\u5f00\u8bfe\u60c5\u51b5", None))
     # retranslateUi
 

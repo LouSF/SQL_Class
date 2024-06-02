@@ -110,3 +110,18 @@ class SQL:
         except pyodbc.Error as e:
             print(f"Error executing query: {e}")
             return None
+
+    def StuPage_Student_Course_Query(self):
+        try:
+            SQL_Student_Course_Query = read_sql_file(SQLFiles_E.Student_Course_Query)
+            self.cursor.execute(SQL_Student_Course_Query)
+            result = self.cursor.fetchall()
+            if result:
+                print("Course Query Succeed")
+                return result
+            else:
+                print("Unknown Error happen")
+                return False
+        except pyodbc.Error as e:
+            print(f"Error executing query: {e}")
+            return None
