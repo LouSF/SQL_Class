@@ -34,6 +34,20 @@ class SQL:
             print(f"Error executing query: {e}")
             return None
 
+    def LoginPage_Register_Query(self, UserName: str):
+        try:
+            SQL_Register_Check_Query = read_sql_file(SQLFiles_E.Register_ID_Query)
+            self.cursor.execute(SQL_Register_Check_Query, UserName)
+            result = self.cursor.fetchone()
+            if result:
+                print("ID in StuInfo")
+                return True
+            else:
+                print("Not find ID in StuInfo")
+                return False
+        except pyodbc.Error as e:
+            print(f"Error executing query: {e}")
+            return None
     def LoginPage_Register(self, UserName: str, Password: str, admin: bool):
         try:
             SQL_Register_Check_Query = read_sql_file(SQLFiles_E.Register_Check_Query)
@@ -62,6 +76,36 @@ class SQL:
                 return result
             else:
                 print("Cannot find Rank")
+                return False
+        except pyodbc.Error as e:
+            print(f"Error executing query: {e}")
+            return None
+
+    def StuPage_Rank_Count_Query(self):
+        try:
+            SQL_Rank_Count_Query = read_sql_file(SQLFiles_E.Rank_Count_Query)
+            self.cursor.execute(SQL_Rank_Count_Query)
+            result = self.cursor.fetchone()
+            if result:
+                print("Rank Count Query Succeed")
+                return result
+            else:
+                print("Unknown Error happen")
+                return False
+        except pyodbc.Error as e:
+            print(f"Error executing query: {e}")
+            return None
+
+    def StuPage_Student_Score_Query(self, UserID: str):
+        try:
+            SQL_Student_Score_Query = read_sql_file(SQLFiles_E.Student_Score_Query)
+            self.cursor.execute(SQL_Student_Score_Query, UserID)
+            result = self.cursor.fetchall()
+            if result:
+                print("Score Query Succeed")
+                return result
+            else:
+                print("Unknown Error happen")
                 return False
         except pyodbc.Error as e:
             print(f"Error executing query: {e}")

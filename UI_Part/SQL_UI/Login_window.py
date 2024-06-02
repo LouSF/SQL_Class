@@ -67,13 +67,18 @@ class Login_Window(QWidget):
         password = self.ui.Password_lineEdit.text()
 
         if self.Password_Judge(password) == True:
+            RegisterQ = self.conn.LoginPage_Register_Query(username)
+            if RegisterQ == False:
+                QMessage_result = QMessageBox.question(self, "Attation", "在DB中不存在该项记录，完成注册后将不能访问任何数据，是否继续？",
+                                              QMessageBox.Yes | QMessageBox.No)
 
-            RegisterR = self.conn.LoginPage_Register(username, password, False)
+            if RegisterQ == True or QMessage_result == QMessageBox.Yes:
+                RegisterR = self.conn.LoginPage_Register(username, password, False)
 
-            if RegisterR is None:
-                QMessageBox.critical(self, "ERROR", "已存在账号！")
-            else:
-                QMessageBox.information(self, "SUCCEED", "成功注册！")
+                if RegisterR is None:
+                    QMessageBox.critical(self, "ERROR", "已存在账号！")
+                else:
+                    QMessageBox.information(self, "SUCCEED", "成功注册！")
 
     def on_button_clicked_Login_Button(self):
         username = self.ui.User_lineEdit.text()

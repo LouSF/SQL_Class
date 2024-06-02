@@ -16,7 +16,8 @@ from PySide6.QtGui import (QBrush, QColor, QConicalGradient, QCursor,
     QImage, QKeySequence, QLinearGradient, QPainter,
     QPalette, QPixmap, QRadialGradient, QTransform)
 from PySide6.QtWidgets import (QApplication, QHBoxLayout, QLabel, QPushButton,
-    QSizePolicy, QWidget)
+    QSizePolicy, QSpacerItem, QWidget)
+import src_rc
 
 class Ui_Students_Windows(object):
     def setupUi(self, Students_Windows):
@@ -29,6 +30,10 @@ class Ui_Students_Windows(object):
         self.horizontalLayout = QHBoxLayout(self.horizontalLayoutWidget)
         self.horizontalLayout.setObjectName(u"horizontalLayout")
         self.horizontalLayout.setContentsMargins(0, 0, 0, 0)
+        self.horizontalSpacer = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
+
+        self.horizontalLayout.addItem(self.horizontalSpacer)
+
         self.label = QLabel(self.horizontalLayoutWidget)
         self.label.setObjectName(u"label")
 
@@ -38,6 +43,10 @@ class Ui_Students_Windows(object):
         self.UserName_label.setObjectName(u"UserName_label")
 
         self.horizontalLayout.addWidget(self.UserName_label)
+
+        self.horizontalSpacer_2 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
+
+        self.horizontalLayout.addItem(self.horizontalSpacer_2)
 
         self.label_2 = QLabel(self.horizontalLayoutWidget)
         self.label_2.setObjectName(u"label_2")
@@ -49,11 +58,20 @@ class Ui_Students_Windows(object):
 
         self.horizontalLayout.addWidget(self.Rank_label)
 
+        self.horizontalSpacer_3 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
+
+        self.horizontalLayout.addItem(self.horizontalSpacer_3)
+
         self.Logout_Button = QPushButton(self.horizontalLayoutWidget)
         self.Logout_Button.setObjectName(u"Logout_Button")
 
         self.horizontalLayout.addWidget(self.Logout_Button)
 
+        self.label_img = QLabel(Students_Windows)
+        self.label_img.setObjectName(u"label_img")
+        self.label_img.setGeometry(QRect(60, 10, 181, 161))
+        self.label_img.setPixmap(QPixmap(u":/new/prefix1/img/t_logo.png"))
+        self.label_img.setAlignment(Qt.AlignCenter)
 
         self.retranslateUi(Students_Windows)
 
@@ -67,5 +85,6 @@ class Ui_Students_Windows(object):
         self.label_2.setText(QCoreApplication.translate("Students_Windows", u"\u4f60\u7684\u6392\u540d\u4e3a\uff1a", None))
         self.Rank_label.setText(QCoreApplication.translate("Students_Windows", u"None", None))
         self.Logout_Button.setText(QCoreApplication.translate("Students_Windows", u"Logout", None))
+        self.label_img.setText("")
     # retranslateUi
 

@@ -1,5 +1,5 @@
 SELECT
-    StuName
+    StuName,
 	StuRank
 FROM
 	Rank

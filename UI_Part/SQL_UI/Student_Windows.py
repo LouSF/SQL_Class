@@ -6,6 +6,7 @@ from PySide6.QtWidgets import QApplication, QWidget, QPushButton, QMessageBox
 # Important:
 # You need to run the following command to generate the ui_form.py file
 #     pyside6-uic Student_Windows.ui -o ui_Student_Windows.py
+#     pyside6-rcc src.qrc -o src_rc.py
 from ui_Student_Windows import Ui_Students_Windows
 from PySide6.QtCore import Signal
 
@@ -21,16 +22,19 @@ class Students_Windows(QWidget):
 
         self.conn = SQL(connectionString)
 
-        self.ui.UserName_label = Message_ID[0]
+        Message_ID[0] = str(Message_ID[0])
+        NameQ, RankQ = self.conn.StuPage_Rank_Query(Message_ID[0])
+        RCountQ = self.conn.StuPage_Rank_Count_Query()
+
+        fini = self.conn.StuPage_Student_Score_Query(Message_ID[0])
+        print(fini)
+        self.ui.UserName_label.setText(str(NameQ))
+        self.ui.Rank_label.setText(str(RankQ) + '/' + str(RCountQ[0]))
 
 
-
-        self.ui.Rank_label.setText()
 
         self.ui.Logout_Button.clicked.connect(self.on_button_clicked_Logout_Button)
 
-
-    def Rank_Query(self) -> str:
 
 
     def on_button_clicked_Logout_Button(self):
