@@ -65,20 +65,33 @@ class Login_Window(QWidget):
     def on_button_clicked_Register_Button(self):
         username = self.ui.User_lineEdit.text()
         password = self.ui.Password_lineEdit.text()
-
-        if self.Password_Judge(password) == True:
-            RegisterQ = self.conn.LoginPage_Register_Query(username)
-            if RegisterQ == False:
-                QMessage_result = QMessageBox.question(self, "Attation", "在DB中不存在该项记录，完成注册后将不能访问任何数据，是否继续？",
-                                              QMessageBox.Yes | QMessageBox.No)
-
-            if RegisterQ == True or QMessage_result == QMessageBox.Yes:
-                RegisterR = self.conn.LoginPage_Register(username, password, False)
-
+        QMessage_result = QMessageBox.question(self, "Attation",
+                                               "是否注册为管理员？",
+                                               QMessageBox.Yes | QMessageBox.No)
+        if QMessage_result == QMessageBox.Yes:
+            if self.Password_Judge(password) == True:
+                RegisterR = self.conn.LoginPage_Register(username, password, True)
                 if RegisterR is None:
-                    QMessageBox.critical(self, "ERROR", "已存在账号！")
+                    QMessageBox.critical(self, "ERROR", "已存在账号！注册终止")
                 else:
                     QMessageBox.information(self, "SUCCEED", "成功注册！")
+        else:
+            if self.Password_Judge(password) == True:
+                RegisterQ = self.conn.LoginPage_Register_Query(username)
+                if RegisterQ == False:
+                    QMessage_result = QMessageBox.question(self, "Attation",
+                                                           "在DB中不存在该项记录，完成注册后将不能访问任何数据，是否继续？",
+                                                           QMessageBox.Yes | QMessageBox.No)
+
+                if RegisterQ == True or QMessage_result == QMessageBox.Yes:
+                    RegisterR = self.conn.LoginPage_Register(username, password, False)
+
+                    if RegisterR is None:
+                        QMessageBox.critical(self, "ERROR", "已存在账号！注册终止")
+                    else:
+                        QMessageBox.information(self, "SUCCEED", "成功注册！")
+                else:
+                    QMessageBox.information(self, "STOP", "注册终止")
 
     def on_button_clicked_Login_Button(self):
         username = self.ui.User_lineEdit.text()
