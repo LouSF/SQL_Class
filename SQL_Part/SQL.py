@@ -112,10 +112,14 @@ class SQL:
             return None
 
     def StuPage_Student_Course_Query(self, CourseNo: str = '%', CourseName: str = '%', Score: str = '%'):
+        # todo fix bug
         try:
             SQL_Student_Course_Query = read_sql_file(SQLFiles_E.Student_Course_Query)
+            print((CourseNo, CourseName, Score))
             self.cursor.execute(SQL_Student_Course_Query, (CourseNo, CourseName, Score))
+            print(self.cursor)
             result = self.cursor.fetchall()
+            print(result)
             if result:
                 print("Course Query Succeed")
                 return result
@@ -130,6 +134,21 @@ class SQL:
         try:
             SQL_All_Score_Query = read_sql_file(SQLFiles_E.Admin_Score_All_Query)
             self.cursor.execute(SQL_All_Score_Query)
+            result = self.cursor.fetchall()
+            if result:
+                print("Score Query Succeed")
+                return result
+            else:
+                print("Unknown Error happen")
+                return False
+        except pyodbc.Error as e:
+            print(f"Error executing query: {e}")
+            return None
+
+    def Admin_Student_Rank_Query(self):
+        try:
+            SQL_Student_Rank_Query = read_sql_file(SQLFiles_E.Student_Rank_Query)
+            self.cursor.execute(SQL_Student_Rank_Query)
             result = self.cursor.fetchall()
             if result:
                 print("Score Query Succeed")
