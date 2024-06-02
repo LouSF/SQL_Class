@@ -6,45 +6,53 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>992</width>
-    <height>678</height>
+    <width>1000</width>
+    <height>700</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Student_SQL_LSF</string>
+   <string>STUDENT_Page</string>
   </property>
   <widget class="QWidget" name="horizontalLayoutWidget">
    <property name="geometry">
     <rect>
-     <x>470</x>
+     <x>310</x>
      <y>10</y>
-     <width>521</width>
-     <height>80</height>
+     <width>681</width>
+     <height>51</height>
     </rect>
    </property>
    <layout class="QHBoxLayout" name="horizontalLayout">
     <item>
      <widget class="QLabel" name="label">
       <property name="text">
-       <string>当前登录：</string>
-      </property>
-      <property name="alignment">
-       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+       <string>你好，</string>
       </property>
      </widget>
     </item>
     <item>
-     <widget class="QLabel" name="User_Label">
+     <widget class="QLabel" name="UserName_label">
       <property name="text">
-       <string>TextLabel</string>
-      </property>
-      <property name="alignment">
-       <set>Qt::AlignCenter</set>
+       <string>None</string>
       </property>
      </widget>
     </item>
     <item>
-     <widget class="QPushButton" name="Logout_pushButton">
+     <widget class="QLabel" name="label_2">
+      <property name="text">
+       <string>你的排名为：</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QLabel" name="Rank_label">
+      <property name="text">
+       <string>None</string>
+      </property>
+     </widget>
+    </item>
+    <item>
+     <widget class="QPushButton" name="Logout_Button">
       <property name="text">
        <string>Logout</string>
       </property>
@@ -52,7 +60,28 @@
     </item>
    </layout>
   </widget>
+  <widget class="QLabel" name="label_img">
+   <property name="geometry">
+    <rect>
+     <x>60</x>
+     <y>0</y>
+     <width>181</width>
+     <height>161</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="pixmap">
+    <pixmap resource="src.qrc">:/new/prefix1/img/t_logo.png</pixmap>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
  </widget>
- <resources/>
+ <resources>
+  <include location="src.qrc"/>
+ </resources>
  <connections/>
 </ui>

@@ -20,6 +20,7 @@ class SQLFiles_E(Enum):
     Login_Query = 'SQL_lib/Login_Query.sql'
     Register_Check_Query = 'SQL_lib/Register_Check_Query.sql'
     Register_Insert = 'SQL_lib/Register_Insert.sql'
+    Rank_Query = 'SQL_lib/Rank_Query.sql'
     NONE = None
 
 def read_sql_file(file_enum: SQLFiles_E):

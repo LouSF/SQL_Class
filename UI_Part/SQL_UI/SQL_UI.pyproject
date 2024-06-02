@@ -1,7 +1,14 @@
 {
     "files": [
-        "widget.py",
-        "form.ui",
-        "Student_Windows.ui"
+        "Student_Windows.ui",
+        "Student_Windows.py",
+        "Login_window.ui",
+        "ui_Student_Windows.py",
+        "Login_window.py",
+        "ui_Login_window.py",
+        "Admin_window.py",
+        "Admin_window.ui",
+        "src.qrc",
+        "img/t_logo.png"
     ]
 }

@@ -1,6 +1,7 @@
 import pyodbc
 from SQL_String import *
 
+
 class SQL:
     def SQL_Connect(self, ConnectString: str):
         try:
@@ -47,6 +48,21 @@ class SQL:
                 self.conn.commit()
                 print("Registration successful")
                 return True
+        except pyodbc.Error as e:
+            print(f"Error executing query: {e}")
+            return None
+
+    def StuPage_Rank_Query(self, UserName: str):
+        try:
+            SQL_Rank_Query = read_sql_file(SQLFiles_E.Rank_Query)
+            self.cursor.execute(SQL_Rank_Query, UserName)
+            result = self.cursor.fetchone()
+            if result:
+                print("Rank Query Succeed")
+                return result
+            else:
+                print("Cannot find Rank")
+                return False
         except pyodbc.Error as e:
             print(f"Error executing query: {e}")
             return None

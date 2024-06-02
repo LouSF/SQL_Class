@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 ################################################################################
-## Form generated from reading UI file 'form.ui'
+## Form generated from reading UI file 'Login_window.ui'
 ##
 ## Created by: Qt User Interface Compiler version 6.7.1
 ##
@@ -34,10 +34,10 @@ class Ui_Login_windows(object):
 
         self.verticalLayout.addWidget(self.Login_Button)
 
-        self.pushButton = QPushButton(self.verticalLayoutWidget)
-        self.pushButton.setObjectName(u"pushButton")
+        self.Register_Button = QPushButton(self.verticalLayoutWidget)
+        self.Register_Button.setObjectName(u"Register_Button")
 
-        self.verticalLayout.addWidget(self.pushButton)
+        self.verticalLayout.addWidget(self.Register_Button)
 
         self.horizontalLayoutWidget = QWidget(Login_windows)
         self.horizontalLayoutWidget.setObjectName(u"horizontalLayoutWidget")
@@ -92,7 +92,7 @@ class Ui_Login_windows(object):
     def retranslateUi(self, Login_windows):
         Login_windows.setWindowTitle(QCoreApplication.translate("Login_windows", u"Login_SQL_LSF", None))
         self.Login_Button.setText(QCoreApplication.translate("Login_windows", u"Login", None))
-        self.pushButton.setText(QCoreApplication.translate("Login_windows", u"\u6ce8\u518c", None))
+        self.Register_Button.setText(QCoreApplication.translate("Login_windows", u"\u6ce8\u518c", None))
         self.label.setText(QCoreApplication.translate("Login_windows", u"\u7528\u6237\u540d", None))
         self.label_3.setText(QCoreApplication.translate("Login_windows", u"Password", None))
     # retranslateUi
