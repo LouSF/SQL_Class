@@ -85,13 +85,20 @@ class Admin_Windows(QWidget):
         if (Target_Text == ''):
             QMessageBox.warning(self, "Warning", "留空默认以*规则搜索")
             ACourseQ = self.conn.StuPage_Student_Course_Query()
+            ACourseQ = [list(elem) for elem in ACourseQ]
+            print(ACourseQ)
+            self.df = pd.DataFrame(ACourseQ, columns=['课程代码', '课程名', '学分'])
+            self.populate_table_view(self.df, self.ui.tableView)
         else:
-            # todo fix bug temp stop use
-            ACourseQ = self.conn.StuPage_Student_Course_Query('%','%','%')
-        ACourseQ = [list(elem) for elem in ACourseQ]
-        print(ACourseQ)
-        self.df = pd.DataFrame(ACourseQ, columns= ['课程代码', '课程名', '学分'])
-        self.populate_table_view(self.df, self.ui.tableView)
+            Target_Text = '%' + Target_Text + '%'
+            ACourseQ = self.conn.StuPage_Student_Course_Query(Target_Text,Target_Text,Target_Text)
+            if ACourseQ == False:
+                QMessageBox.critical(self, "Error", "未找到")
+            else:
+                ACourseQ = [list(elem) for elem in ACourseQ]
+                print(ACourseQ)
+                self.df = pd.DataFrame(ACourseQ, columns= ['课程代码', '课程名', '学分'])
+                self.populate_table_view(self.df, self.ui.tableView)
 
 
     def on_button_clicked_Query_Score_Button(self):
@@ -112,6 +119,7 @@ class Admin_Windows(QWidget):
 
 
     def on_button_clicked_Logout_Button(self):
+        QMessageBox.information(self, "SUCCEED", "已登出")
         self.close()
 
     def closeEvent(self, event):

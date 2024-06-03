@@ -26,24 +26,33 @@ class Students_Windows(QWidget):
         self.conn = SQL(connectionString)
 
         Message_ID[0] = str(Message_ID[0])
-        NameQ, RankQ = self.conn.StuPage_Rank_Query(Message_ID[0])
-        RCountQ = self.conn.StuPage_Rank_Count_Query()
+        RegisterQ = self.conn.LoginPage_Register_Query(Message_ID[0])
 
-        ScoreQ = self.conn.StuPage_Student_Score_Query(Message_ID[0])
-        ScoreQ = [list(elem) for elem in ScoreQ]
-        print(ScoreQ)
-        self.df_ScoreQ = pd.DataFrame(ScoreQ, columns= ['学号', '姓名', '班级', '课程', '成绩'])
-        self.populate_table_view(self.df_ScoreQ, self.ui.Score_tableView)
+        if RegisterQ != False:
+            NameQ, RankQ = self.conn.StuPage_Rank_Query(Message_ID[0])
+            RCountQ = self.conn.StuPage_Rank_Count_Query()
 
-        CourseQ = self.conn.StuPage_Student_Course_Query()
-        CourseQ = [list(elem) for elem in CourseQ]
-        print(CourseQ)
-        self.df_CourseQ = pd.DataFrame(CourseQ, columns= ['课程代码', '课程名', '学分'])
-        self.populate_table_view(self.df_CourseQ, self.ui.Course_tableView)
+            ScoreQ = self.conn.StuPage_Student_Score_Query(Message_ID[0])
+            ScoreQ = [list(elem) for elem in ScoreQ]
+            print(ScoreQ)
+            self.df_ScoreQ = pd.DataFrame(ScoreQ, columns= ['学号', '姓名', '班级', '课程', '成绩'])
+            self.populate_table_view(self.df_ScoreQ, self.ui.Score_tableView)
+
+            CourseQ = self.conn.StuPage_Student_Course_Query()
+            CourseQ = [list(elem) for elem in CourseQ]
+            print(CourseQ)
+            self.df_CourseQ = pd.DataFrame(CourseQ, columns= ['课程代码', '课程名', '学分'])
+            self.populate_table_view(self.df_CourseQ, self.ui.Course_tableView)
+
+            self.ui.Rank_label.setText(str(RankQ) + '/' + str(RCountQ[0]))
+            self.ui.UserName_label.setText(str(NameQ))
+
+        else:
+            QMessageBox.information(self, "INFO", "此账号未绑定实际用户")
+            self.ui.Rank_label.setText('X')
+            self.ui.UserName_label.setText(Message_ID[0])
 
 
-        self.ui.UserName_label.setText(str(NameQ))
-        self.ui.Rank_label.setText(str(RankQ) + '/' + str(RCountQ[0]))
 
         self.ui.Course_Output_Button.clicked.connect(self.on_button_clicked_Course_Output_Button)
         self.ui.Score_Output_Button.clicked.connect(self.on_button_clicked_Score_Output_Button)

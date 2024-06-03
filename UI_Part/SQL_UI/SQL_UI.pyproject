@@ -9,6 +9,7 @@
         "Admin_window.py",
         "Admin_window.ui",
         "src.qrc",
-        "img/t_logo.png"
+        "img/t_logo.png",
+        "StuInfo.ui"
     ]
 }

@@ -112,11 +112,11 @@ class SQL:
             return None
 
     def StuPage_Student_Course_Query(self, CourseNo: str = '%', CourseName: str = '%', Score: str = '%'):
-        # todo fix bug
         try:
             SQL_Student_Course_Query = read_sql_file(SQLFiles_E.Student_Course_Query)
             print((CourseNo, CourseName, Score))
             self.cursor.execute(SQL_Student_Course_Query, (CourseNo, CourseName, Score))
+
             print(self.cursor)
             result = self.cursor.fetchall()
             print(result)
