@@ -84,6 +84,11 @@ class Ui_Admin_Window(object):
 
         self.horizontalLayout.addWidget(self.Add_Button)
 
+        self.Finish_Input_Button = QPushButton(self.horizontalLayoutWidget_2)
+        self.Finish_Input_Button.setObjectName(u"Finish_Input_Button")
+
+        self.horizontalLayout.addWidget(self.Finish_Input_Button)
+
         self.Del_Button = QPushButton(self.horizontalLayoutWidget_2)
         self.Del_Button.setObjectName(u"Del_Button")
 
@@ -227,6 +232,7 @@ class Ui_Admin_Window(object):
         self.label_2.setText("")
         self.Change_Button.setText(QCoreApplication.translate("Admin_Window", u"\u4fee\u6539", None))
         self.Add_Button.setText(QCoreApplication.translate("Admin_Window", u"\u6dfb\u52a0", None))
+        self.Finish_Input_Button.setText(QCoreApplication.translate("Admin_Window", u"\u5b8c\u6210\u6dfb\u52a0", None))
         self.Del_Button.setText(QCoreApplication.translate("Admin_Window", u"\u5220\u9664", None))
         self.Output_Button.setText(QCoreApplication.translate("Admin_Window", u"\u5bfc\u51fa\u5f53\u524d\u8868", None))
         self.label_5.setText(QCoreApplication.translate("Admin_Window", u"\u5b66\u751f\u4fe1\u606f\u67e5\u8be2", None))

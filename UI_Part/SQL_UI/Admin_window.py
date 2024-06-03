@@ -1,7 +1,7 @@
 # This Python file uses the following encoding: utf-8
 import sys
 
-from PySide6.QtWidgets import QApplication, QWidget, QPushButton, QMessageBox, QFileDialog
+from PySide6.QtWidgets import QApplication, QWidget, QPushButton, QMessageBox, QFileDialog, QInputDialog, QLineEdit
 from PySide6.QtGui import QStandardItemModel, QStandardItem
 
 # Important:
@@ -47,8 +47,10 @@ class Admin_Windows(QWidget):
 
 
         self.ui.Add_Button.clicked.connect(self.on_button_clicked_Add_Button)
+        self.ui.Finish_Input_Button.clicked.connect(self.on_button_clicked_Confirm_Add_Button)  # Finish Input
         self.ui.Del_Button.clicked.connect(self.on_button_clicked_Del_Button)
         self.ui.Change_Button.clicked.connect(self.on_button_clicked_Change_Button)
+
 
         self.state = self.Table_State_E.NONE
 
@@ -79,6 +81,13 @@ class Admin_Windows(QWidget):
     def StudentNum_Judge(self, Num: str) -> bool:
         pattern = r'^\d{10}$'
         return bool(re.match(pattern, Num))
+
+    def Gender_Judge(self, gender: str) -> bool:
+        pattern = r'^(男|女)$'
+        return bool(re.match(pattern, gender))
+
+    def Score_Judge(self, Score: int) -> bool:
+        return 0 <= Score <= 100
 
     def on_button_clicked_StuInfo_Query_Button(self):
         Target_Text = self.ui.StuNum_lineEdit.text()
@@ -164,22 +173,87 @@ class Admin_Windows(QWidget):
         return QMessage_result
 
     def on_button_clicked_Add_Button(self):
-        if self._ASK("确认执行添加？") == QMessageBox.Yes:
-            if self.state == self.Table_State_E.NONE:
-                self._Undef_change_Warning()
-            elif self.state == self.Table_State_E.Rank:
-                self._Rank_change_Warning()
-            elif self.state == self.Table_State_E.Student_Sel:
-                row_position = self.ui.tableView.model().rowCount()
-                self.ui.tableView.model().insertRow(row_position)
+        if self.state == self.Table_State_E.NONE:
+            self._Undef_change_Warning()
+        elif self.state == self.Table_State_E.Rank:
+            self._Rank_change_Warning()
+        else:
+            row_position = self.ui.tableView.model().rowCount()
+            self.ui.tableView.model().insertRow(row_position)
+            self.ui.tableView.selectRow(row_position)
+            QMessageBox.information(self, "提示", "请在表格中输入新数据，然后点击确认按钮以保存到数据库。")
+            if self.state == self.Table_State_E.Student_Sel:
+                QMessageBox.information(self, "Attation", "只有‘学号’， ‘课程号’， ‘成绩’参与添加判断")
+
+    def on_button_clicked_Confirm_Add_Button(self):
+        if self.state == self.Table_State_E.NONE:
+            self._Undef_change_Warning()
+        elif self.state == self.Table_State_E.Rank:
+            self._Rank_change_Warning()
+        else:
+            row_position = self.ui.tableView.selectionModel().currentIndex().row()
+            if self.state == self.Table_State_E.Student_Sel:
+                new_data = self.collect_data_from_row(row_position, ['学号', '姓名', '班级', '课程', '课程代码', '成绩'])
+                print(new_data)
+                if new_data:
+                    StuNum, _, _, _, CourseNo, Score = new_data
+                    if self.StudentNum_Judge(StuNum) == False:
+                        QMessageBox.critical(self, "Error", "ID不是预期的格式：10位纯数字")
+                    if self.Score_Judge(Score) == False:
+                        QMessageBox.critical(self, "Error", "成绩需要介于[0, 100]")
+                    else:
+                        if self.conn.Admin_Add_StuSel(StuNum, CourseNo, Score):
+                            QMessageBox.information(self, "Success", "添加成功")
+                            self.on_button_clicked_Query_Score_Button()
+                        else:
+                            self._UNABLE_change_Warning()
             elif self.state == self.Table_State_E.Student_Info:
-                row_position = self.ui.tableView.model().rowCount()
-                self.ui.tableView.model().insertRow(row_position)
+                new_data = self.collect_data_from_row(row_position, ["学号", "姓名", "性别", "班级", "年龄"])
+                print(new_data)
+                if new_data:
+                    StuNum, StuName, StuSex, StuClass, StuAge = new_data
+                    if self.StudentNum_Judge(StuNum) == False:
+                        QMessageBox.critical(self, "Error", "ID不是预期的格式：10位纯数字")
+                    elif self.Gender_Judge(StuSex) == False:
+                        QMessageBox.critical(self, "Error", "性别输入错误")
+                    else:
+                        if self.conn.Admin_Add_Student(StuNum, StuName, StuSex, StuClass, StuAge):
+                            QMessageBox.information(self, "Success", "添加成功")
+                            self.on_button_clicked_StuInfo_Query_Button()
+                        else:
+                            self._UNABLE_change_Warning()
             elif self.state == self.Table_State_E.Course:
-                row_position = self.ui.tableView.model().rowCount()
-                self.ui.tableView.model().insertRow(row_position)
+                new_data = self.collect_data_from_row(row_position, ["课程代码", "课程名", "学分"])
+                print(new_data)
+                if new_data:
+                    CourseNo, CourseName, Credit = new_data
 
+                    try:
+                        Credit = int(Credit)
+                    except ValueError:
+                        QMessageBox.critical(self, "Error", "学分必须是Int")
 
+                    if type(Credit) != int:
+                        pass
+                    else:
+                        if self.conn.Admin_Add_Course(CourseNo, CourseName, Credit):
+                            QMessageBox.information(self, "Success", "添加成功")
+                            self.on_button_clicked_Query_Course_Button()
+                        else:
+                            self._UNABLE_change_Warning()
+
+    def collect_data_from_row(self, row, column_names):
+        model = self.ui.tableView.model()
+        data = []
+        for column_name in column_names:
+            column = self.df.columns.get_loc(column_name)
+            index = model.index(row, column)
+            value = model.data(index)
+            if value is None or value == "":
+                QMessageBox.warning(self, "输入错误", f"请填写所有字段: {', '.join(column_names)}")
+                return None
+            data.append(value)
+        return data
 
     def on_button_clicked_Del_Button(self):
         if self._ASK("确认执行删除？") == QMessageBox.Yes:
