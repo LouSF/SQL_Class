@@ -216,6 +216,8 @@ class Admin_Windows(QWidget):
                         QMessageBox.critical(self, "Error", "ID不是预期的格式：10位纯数字")
                     elif self.Gender_Judge(StuSex) == False:
                         QMessageBox.critical(self, "Error", "性别输入错误")
+                    elif self.Score_Judge(StuAge) == False:
+                        QMessageBox.critical(self, "Error", "年龄输入错误")
                     else:
                         if self.conn.Admin_Add_Student(StuNum, StuName, StuSex, StuClass, StuAge):
                             QMessageBox.information(self, "Success", "添加成功")
@@ -321,14 +323,68 @@ class Admin_Windows(QWidget):
             self._Undef_change_Warning()
         elif self.state == self.Table_State_E.Rank:
             self._Rank_change_Warning()
-        elif self.state == self.Table_State_E.Student_Sel:
-            pass
-        elif self.state == self.Table_State_E.Student_Info:
-            pass
-        elif self.state == self.Table_State_E.Course:
-            pass
+        else:
+            selected_indexes = self.ui.tableView.selectionModel().selectedRows()
+            if not selected_indexes:
+                QMessageBox.warning(self, "Warning", "没有选中任何行")
+                return
 
-        pass
+            for index in selected_indexes:
+                row = index.row()
+                if self.state == self.Table_State_E.Student_Sel:
+                    QMessageBox.information(self, "Attation", "在本表中只有修改成绩是有效的，其它参数的修改在对应表")
+                    new_data = self.collect_data_from_row(row, ['学号', '姓名', '班级', '课程', '课程代码', '成绩'])
+                    if new_data:
+                        StuNum, _, _, _, CourseNo, Score = new_data
+                        if self.conn.LoginPage_Register_Query(StuNum) == False:
+                            QMessageBox.critical(self, "Error", "在本次操作中不允许修改学号，它用于定位记录")
+                        if self.conn.StuPage_Student_Course_Query(CourseNo) == False:
+                            QMessageBox.critical(self, "Error", "在本次操作中不允许修改课程代码，它用于定位记录")
+                        else:
+                            if self.conn.Admin_Change_StuSel(StuNum, CourseNo, Score):
+                                QMessageBox.information(self, "Success", "更新成功")
+                            else:
+                                self._UNABLE_change_Warning()
+                elif self.state == self.Table_State_E.Student_Info:
+                    new_data = self.collect_data_from_row(row, ["学号", "姓名", "性别", "班级", "年龄"])
+                    if new_data:
+                        StuNum, StuName, StuGender, StuClass, StuAge = new_data
+                        if self.conn.LoginPage_Register_Query(StuNum) == False:
+                            QMessageBox.critical(self, "Error", "在本次操作中不允许修改学号，它用于定位记录")
+                        elif self.Gender_Judge(StuGender) == False:
+                            QMessageBox.critical(self, "Error", "性别输入错误")
+                        elif self.Score_Judge(StuAge) == False:
+                            QMessageBox.critical(self, "Error", "年龄输入错误")
+                        else:
+                            if self.conn.Admin_Change_Student(StuNum, StuName, StuGender, StuClass, StuAge):
+                                QMessageBox.information(self, "Success", "更新成功")
+                            else:
+                                self._UNABLE_change_Warning()
+                elif self.state == self.Table_State_E.Course:
+                    new_data = self.collect_data_from_row(row, ["课程代码", "课程名", "学分"])
+                    if new_data:
+                        CourseNo, CourseName, Credit = new_data
+
+                        try:
+                            Credit = int(Credit)
+                        except ValueError:
+                            QMessageBox.critical(self, "Error", "学分必须是Int")
+
+                        if type(Credit) != int:
+                            pass
+                        else:
+                            if self.conn.Admin_Change_Course(CourseNo, CourseName, Credit):
+                                QMessageBox.information(self, "Success", "更新成功")
+                            else:
+                                self._UNABLE_change_Warning()
+
+            if self.state == self.Table_State_E.Student_Sel:
+                self.on_button_clicked_Query_Score_Button()
+            elif self.state == self.Table_State_E.Student_Info:
+                self.on_button_clicked_StuInfo_Query_Button()
+            elif self.state == self.Table_State_E.Course:
+                self.on_button_clicked_Query_Course_Button()
+
     def closeEvent(self, event):
         self.closed.emit()  # Emit the custom signal
         super().closeEvent(event)

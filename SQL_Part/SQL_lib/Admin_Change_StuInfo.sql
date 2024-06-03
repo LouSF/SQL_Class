@@ -1,6 +1,6 @@
 UPDATE StuInfo
 SET StuName = ?,
-StuClass = ?,
+StuSex = ?,
 StuClass = ?,
 StuAge = ?
 WHERE
