@@ -25,7 +25,8 @@ class SQLFiles_E(Enum):
     Rank_Count_Query = 'SQL_lib/Rank_Count_Query.sql'
     Student_Score_Query = 'SQL_lib/Student_Score_Query.sql'
     Student_Course_Query = 'SQL_lib/Student_Course_Query.sql'
-    Admin_Score_All_Query = 'SQL_lib/Admin_Score_All_Query.sql'
+    Admin_Score_Query = 'SQL_lib/Admin_Score_Query.sql'
+    Admin_StuInfo_Query = 'SQL_lib/Admin_StuInfo_Query.sql'
     Student_Rank_Query = 'SQL_lib/Student_Rank_Query.sql'
 
     Admin_Add_Course = 'SQL_lib/Admin_Add_Course.sql'

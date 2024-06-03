@@ -22,8 +22,8 @@ class Admin_Windows(QWidget):
 
     class Table_State_E(Enum):
         NONE = None
-        Student_Sel = 0
-        Student_Info = 1
+        Student_Info = 0
+        Student_Sel = 1
         Course = 2
         Rank = 3
 
@@ -39,9 +39,9 @@ class Admin_Windows(QWidget):
 
         self.ui.Logout_Button.clicked.connect(self.on_button_clicked_Logout_Button)
 
-        self.ui.Query_Button.clicked.connect(self.on_button_clicked_Query_Button) # Single Score
+        self.ui.Query_Button.clicked.connect(self.on_button_clicked_StuInfo_Query_Button) # StuInfo
         self.ui.Query_Course_Button.clicked.connect(self.on_button_clicked_Query_Course_Button)
-        self.ui.Query_Score_Button.clicked.connect(self.on_button_clicked_Query_Score_Button) # All Score
+        self.ui.Query_Score_Button.clicked.connect(self.on_button_clicked_Query_Score_Button) # StuScore
         self.ui.Query_Score_Rank_Button.clicked.connect(self.on_button_clicked_Query_Score_Rank_Button)
         self.ui.Output_Button.clicked.connect(self.on_button_clicked_Output_Button)
 
@@ -79,56 +79,61 @@ class Admin_Windows(QWidget):
     def StudentNum_Judge(self, Num: str) -> bool:
         pattern = r'^\d{10}$'
         return bool(re.match(pattern, Num))
-    def on_button_clicked_Query_Button(self):
 
-        StuNUM = self.ui.StuNum_lineEdit.text()
+    def on_button_clicked_StuInfo_Query_Button(self):
+        Target_Text = self.ui.StuNum_lineEdit.text()
 
-        if self.StudentNum_Judge(StuNUM) == True:
-            CourseQ = self.conn.StuPage_Student_Score_Query(StuNUM)
-
-            if CourseQ == False:
-                QMessageBox.critical(self, "Error", "不存在该学生")
-            else:
-                CourseQ = [list(elem) for elem in CourseQ]
-                print(CourseQ)
-
-                self.df = pd.DataFrame(CourseQ, columns=['学号', '姓名', '班级', '课程', '成绩'])
-                self.populate_table_view(self.df, self.ui.tableView)
-
-                self.state = self.Table_State_E.Student_Sel
+        if (Target_Text == ''):
+            QMessageBox.warning(self, "Warning", "留空默认以*规则搜索")
+            InfoQ = self.conn.AdminPage_Admin_StuInfo_Query()
         else:
-            QMessageBox.critical(self, "Error", "ID不是预期的格式：10位纯数字")
+            Target_Text = '%' + Target_Text + '%'
+            InfoQ = self.conn.AdminPage_Admin_StuInfo_Query(Target_Text, Target_Text, Target_Text, Target_Text, Target_Text)
+        if InfoQ == False:
+            QMessageBox.critical(self, "Error", "未找到")
+        else:
+            InfoQ = [list(elem) for elem in InfoQ]
+            print(InfoQ)
+            self.df = pd.DataFrame(InfoQ, columns=['学号', '姓名', '性别', '班级', '年龄'])
+            self.populate_table_view(self.df, self.ui.tableView)
+            self.state = self.Table_State_E.Student_Info
+
 
     def on_button_clicked_Query_Course_Button(self):
         Target_Text = self.ui.Course_lineEdit.text()
         if (Target_Text == ''):
             QMessageBox.warning(self, "Warning", "留空默认以*规则搜索")
             ACourseQ = self.conn.StuPage_Student_Course_Query()
+        else:
+            Target_Text = '%' + Target_Text + '%'
+            ACourseQ = self.conn.StuPage_Student_Course_Query(Target_Text,Target_Text,Target_Text)
+        if ACourseQ == False:
+            QMessageBox.critical(self, "Error", "未找到")
+        else:
             ACourseQ = [list(elem) for elem in ACourseQ]
             print(ACourseQ)
             self.df = pd.DataFrame(ACourseQ, columns=['课程代码', '课程名', '学分'])
             self.populate_table_view(self.df, self.ui.tableView)
             self.state = self.Table_State_E.Course
-        else:
-            Target_Text = '%' + Target_Text + '%'
-            ACourseQ = self.conn.StuPage_Student_Course_Query(Target_Text,Target_Text,Target_Text)
-            if ACourseQ == False:
-                QMessageBox.critical(self, "Error", "未找到")
-            else:
-                ACourseQ = [list(elem) for elem in ACourseQ]
-                print(ACourseQ)
-                self.df = pd.DataFrame(ACourseQ, columns= ['课程代码', '课程名', '学分'])
-                self.populate_table_view(self.df, self.ui.tableView)
-                self.state = self.Table_State_E.Course
 
 
     def on_button_clicked_Query_Score_Button(self):
-        ScoreQ = self.conn.Admin_Student_Score_All_Query()
-        ScoreQ = [list(elem) for elem in ScoreQ]
-        print(ScoreQ)
-        self.df = pd.DataFrame(ScoreQ, columns=['学号', '姓名', '班级', '课程', '课程代码', '成绩'])
-        self.populate_table_view(self.df, self.ui.tableView)
-        self.state = self.Table_State_E.Student_Sel
+        Target_Text = self.ui.FindScore_lineEdit.text()
+        if (Target_Text == ''):
+            QMessageBox.warning(self, "Warning", "留空默认以*规则搜索")
+            ScoreQ = self.conn.Admin_Student_Score_Query()
+        else:
+            Target_Text = '%' + Target_Text + '%'
+            ScoreQ = self.conn.Admin_Student_Score_Query(Target_Text, Target_Text, Target_Text, Target_Text, Target_Text, Target_Text)
+
+        if ScoreQ == False:
+            QMessageBox.critical(self, "Error", "未找到")
+        else:
+            ScoreQ = [list(elem) for elem in ScoreQ]
+            print(ScoreQ)
+            self.df = pd.DataFrame(ScoreQ, columns=['学号', '姓名', '班级', '课程', '课程代码', '成绩'])
+            self.populate_table_view(self.df, self.ui.tableView)
+            self.state = self.Table_State_E.Student_Sel
 
     def on_button_clicked_Query_Score_Rank_Button(self):
         RankQ = self.conn.Admin_Student_Rank_Query()
@@ -152,77 +157,90 @@ class Admin_Windows(QWidget):
     def _UNABLE_change_Warning(self):
         QMessageBox.critical(self, "Error", "数据输入有误！")
 
+    def _ASK(self, Rule: str):
+        QMessage_result = QMessageBox.question(self, "Attation",
+                                               Rule,
+                                               QMessageBox.Yes | QMessageBox.No)
+        return QMessage_result
+
     def on_button_clicked_Add_Button(self):
-        if self.state == self.Table_State_E.NONE:
-            self._Undef_change_Warning()
-        elif self.state == self.Table_State_E.Rank:
-            self._Rank_change_Warning()
-        elif self.state == self.Table_State_E.Student_Sel:
-            pass
-        elif self.state == self.Table_State_E.Student_Info:
-            pass
-        elif self.state == self.Table_State_E.Course:
-            pass
+        if self._ASK("确认执行添加？") == QMessageBox.Yes:
+            if self.state == self.Table_State_E.NONE:
+                self._Undef_change_Warning()
+            elif self.state == self.Table_State_E.Rank:
+                self._Rank_change_Warning()
+            elif self.state == self.Table_State_E.Student_Sel:
+                row_position = self.ui.tableView.model().rowCount()
+                self.ui.tableView.model().insertRow(row_position)
+            elif self.state == self.Table_State_E.Student_Info:
+                row_position = self.ui.tableView.model().rowCount()
+                self.ui.tableView.model().insertRow(row_position)
+            elif self.state == self.Table_State_E.Course:
+                row_position = self.ui.tableView.model().rowCount()
+                self.ui.tableView.model().insertRow(row_position)
 
 
-        pass
 
     def on_button_clicked_Del_Button(self):
-        if self.state == self.Table_State_E.NONE:
-            self._Undef_change_Warning()
-        elif self.state == self.Table_State_E.Rank:
-            self._Rank_change_Warning()
-        elif self.state == self.Table_State_E.Student_Sel:
-            selected_indexes = self.ui.tableView.selectionModel().selectedRows()
-            if not selected_indexes:
-                QMessageBox.warning(self, "Warning", "没有选中任何行")
-                return
+        if self._ASK("确认执行删除？") == QMessageBox.Yes:
+            if self.state == self.Table_State_E.NONE:
+                self._Undef_change_Warning()
+            elif self.state == self.Table_State_E.Rank:
+                self._Rank_change_Warning()
+            elif self.state == self.Table_State_E.Student_Sel:
+                selected_indexes = self.ui.tableView.selectionModel().selectedRows()
+                if not selected_indexes:
+                    QMessageBox.warning(self, "Warning", "没有选中任何行")
+                    return
 
-            student_num_index = self.df.columns.get_loc("学号")
-            student_sel_index = self.df.columns.get_loc("课程代码")
+                student_num_index = self.df.columns.get_loc("学号")
+                student_sel_index = self.df.columns.get_loc("课程代码")
 
-            for index in sorted(selected_indexes, reverse=True):
-                student_num = self.df.iloc[index.row(), student_num_index]
-                student_sel = self.df.iloc[index.row(), student_sel_index]
-                if self.conn.Admin_Del_StuSel(student_num, student_sel):
-                    self.df = self.df.drop(index.row()).reset_index(drop=True)
-                else:
-                    QMessageBox.critical(self, "Error", f"删除学生选课记录 {student_num}: {student_sel}失败")
+                for index in sorted(selected_indexes, reverse=True):
+                    student_num = self.df.iloc[index.row(), student_num_index]
+                    student_sel = self.df.iloc[index.row(), student_sel_index]
+                    if self.conn.Admin_Del_StuSel(student_num, student_sel):
+                        self.df = self.df.drop(index.row()).reset_index(drop=True)
+                        QMessageBox.information(self, "SUCCEED", "操作成功")
+                    else:
+                        QMessageBox.critical(self, "Error", f"删除学生选课记录 {student_num}: {student_sel}失败")
 
-            self.populate_table_view(self.df, self.ui.tableView)
+                self.populate_table_view(self.df, self.ui.tableView)
 
-        elif self.state == self.Table_State_E.Student_Info:
-            selected_indexes = self.ui.tableView.selectionModel().selectedRows()
-            if not selected_indexes:
-                QMessageBox.warning(self, "Warning", "没有选中任何行")
-                return
+            elif self.state == self.Table_State_E.Student_Info:
+                selected_indexes = self.ui.tableView.selectionModel().selectedRows()
+                if not selected_indexes:
+                    QMessageBox.warning(self, "Warning", "没有选中任何行")
+                    return
 
-            student_num_index = self.df.columns.get_loc("学号")
+                student_num_index = self.df.columns.get_loc("学号")
 
-            for index in sorted(selected_indexes, reverse=True):
-                student_num = self.df.iloc[index.row(), student_num_index]
-                if self.conn.Admin_Del_Student(student_num):
-                    self.df = self.df.drop(index.row()).reset_index(drop=True)
-                else:
-                    QMessageBox.critical(self, "Error", f"删除学生 {student_num} 失败")
+                for index in sorted(selected_indexes, reverse=True):
+                    student_num = self.df.iloc[index.row(), student_num_index]
+                    if self.conn.Admin_Del_Student(student_num):
+                        self.df = self.df.drop(index.row()).reset_index(drop=True)
+                        QMessageBox.information(self, "SUCCEED", "操作成功")
+                    else:
+                        QMessageBox.critical(self, "Error", f"删除学生 {student_num} 失败")
 
-            self.populate_table_view(self.df, self.ui.tableView)
-        elif self.state == self.Table_State_E.Course:
-            selected_indexes = self.ui.tableView.selectionModel().selectedRows()
-            if not selected_indexes:
-                QMessageBox.warning(self, "Warning", "没有选中任何行")
-                return
+                self.populate_table_view(self.df, self.ui.tableView)
+            elif self.state == self.Table_State_E.Course:
+                selected_indexes = self.ui.tableView.selectionModel().selectedRows()
+                if not selected_indexes:
+                    QMessageBox.warning(self, "Warning", "没有选中任何行")
+                    return
 
-            course_no_index = self.df.columns.get_loc("课程代码")
+                course_no_index = self.df.columns.get_loc("课程代码")
 
-            for index in sorted(selected_indexes, reverse=True):
-                course_no = self.df.iloc[index.row(), course_no_index]
-                if self.conn.Admin_Del_Course(course_no):
-                    self.df = self.df.drop(index.row()).reset_index(drop=True)
-                else:
-                    QMessageBox.critical(self, "Error", f"删除课程 {course_no} 失败")
+                for index in sorted(selected_indexes, reverse=True):
+                    course_no = self.df.iloc[index.row(), course_no_index]
+                    if self.conn.Admin_Del_Course(course_no):
+                        self.df = self.df.drop(index.row()).reset_index(drop=True)
+                        QMessageBox.information(self, "SUCCEED", "操作成功")
+                    else:
+                        QMessageBox.critical(self, "Error", f"删除课程 {course_no} 失败")
 
-            self.populate_table_view(self.df, self.ui.tableView)
+                self.populate_table_view(self.df, self.ui.tableView)
 
     def on_button_clicked_Change_Button(self):
         if self.state == self.Table_State_E.NONE:

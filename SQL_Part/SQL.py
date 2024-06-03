@@ -130,10 +130,28 @@ class SQL:
             print(f"Error executing query: {e}")
             return None
 
-    def Admin_Student_Score_All_Query(self):
+    def AdminPage_Admin_StuInfo_Query(self, StuNum: str = '%', StuName: str = '%', StuSex: str = '%', StuClass: str = '%', StuAge: str = '%'):
         try:
-            SQL_All_Score_Query = read_sql_file(SQLFiles_E.Admin_Score_All_Query)
-            self.cursor.execute(SQL_All_Score_Query)
+            SQL_Student_Course_Query = read_sql_file(SQLFiles_E.Admin_StuInfo_Query)
+            print((StuNum, StuName, StuSex, StuClass, StuAge))
+            self.cursor.execute(SQL_Student_Course_Query, (StuNum, StuName, StuSex, StuClass, StuAge))
+
+            print(self.cursor)
+            result = self.cursor.fetchall()
+            print(result)
+            if result:
+                print("Course Query Succeed")
+                return result
+            else:
+                print("Unknown Error happen")
+                return False
+        except pyodbc.Error as e:
+            print(f"Error executing query: {e}")
+            return None
+    def Admin_Student_Score_Query(self, StuNum: str = '%', StuName: str = '%', StuClass: str = '%', CourseName: str = '%', CourseNo: str = '%', StuScoreS: str = '%'):
+        try:
+            SQL_Score_Query = read_sql_file(SQLFiles_E.Admin_Score_Query)
+            self.cursor.execute(SQL_Score_Query, (StuNum, StuName, StuClass, CourseName, CourseNo, StuScoreS))
             result = self.cursor.fetchall()
             if result:
                 print("Score Query Succeed")

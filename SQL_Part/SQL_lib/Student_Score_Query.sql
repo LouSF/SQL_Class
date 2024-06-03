@@ -14,6 +14,7 @@
 -- WHERE
 -- 	StuSelInfo.StuNum = ?
 
+EXEC sp_refreshview 'Student_Score_View'
 SELECT
     *
 FROM

@@ -168,7 +168,7 @@
     </item>
    </layout>
   </widget>
-  <widget class="QWidget" name="">
+  <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
      <x>10</x>
@@ -181,7 +181,7 @@
     <item>
      <widget class="QLabel" name="label_5">
       <property name="text">
-       <string>学生成绩信息查询</string>
+       <string>学生信息查询</string>
       </property>
       <property name="alignment">
        <set>Qt::AlignCenter</set>
@@ -193,7 +193,7 @@
       <item>
        <widget class="QLabel" name="label_4">
         <property name="text">
-         <string>学号</string>
+         <string>模糊搜索</string>
         </property>
        </widget>
       </item>
@@ -236,7 +236,7 @@
       <item>
        <widget class="QLabel" name="label_7">
         <property name="text">
-         <string>课程模糊搜索</string>
+         <string>模糊搜索</string>
         </property>
        </widget>
       </item>
@@ -258,23 +258,59 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>500</y>
+     <y>720</y>
      <width>165</width>
      <height>81</height>
     </rect>
    </property>
    <layout class="QVBoxLayout" name="verticalLayout_5">
     <item>
-     <widget class="QPushButton" name="Query_Score_Button">
+     <widget class="QPushButton" name="Query_Score_Rank_Button">
       <property name="text">
-       <string>成绩总表查询</string>
+       <string>成绩排名查询</string>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QWidget" name="layoutWidget_3">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>500</y>
+     <width>165</width>
+     <height>159</height>
+    </rect>
+   </property>
+   <layout class="QVBoxLayout" name="verticalLayout_6">
+    <item>
+     <widget class="QLabel" name="label_8">
+      <property name="text">
+       <string>成绩信息查询</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
       </property>
      </widget>
     </item>
     <item>
-     <widget class="QPushButton" name="Query_Score_Rank_Button">
+     <layout class="QHBoxLayout" name="horizontalLayout_5">
+      <item>
+       <widget class="QLabel" name="label_9">
+        <property name="text">
+         <string>模糊搜索</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLineEdit" name="FindScore_lineEdit"/>
+      </item>
+     </layout>
+    </item>
+    <item>
+     <widget class="QPushButton" name="Query_Score_Button">
       <property name="text">
-       <string>成绩排名查询</string>
+       <string>成绩查询</string>
       </property>
      </widget>
     </item>

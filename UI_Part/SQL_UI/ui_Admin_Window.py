@@ -105,13 +105,13 @@ class Ui_Admin_Window(object):
 
         self.verticalLayout.addWidget(self.tableView)
 
-        self.widget = QWidget(Admin_Window)
-        self.widget.setObjectName(u"widget")
-        self.widget.setGeometry(QRect(10, 160, 165, 159))
-        self.verticalLayout_3 = QVBoxLayout(self.widget)
+        self.layoutWidget = QWidget(Admin_Window)
+        self.layoutWidget.setObjectName(u"layoutWidget")
+        self.layoutWidget.setGeometry(QRect(10, 160, 165, 159))
+        self.verticalLayout_3 = QVBoxLayout(self.layoutWidget)
         self.verticalLayout_3.setObjectName(u"verticalLayout_3")
         self.verticalLayout_3.setContentsMargins(0, 0, 0, 0)
-        self.label_5 = QLabel(self.widget)
+        self.label_5 = QLabel(self.layoutWidget)
         self.label_5.setObjectName(u"label_5")
         self.label_5.setAlignment(Qt.AlignCenter)
 
@@ -119,12 +119,12 @@ class Ui_Admin_Window(object):
 
         self.horizontalLayout_3 = QHBoxLayout()
         self.horizontalLayout_3.setObjectName(u"horizontalLayout_3")
-        self.label_4 = QLabel(self.widget)
+        self.label_4 = QLabel(self.layoutWidget)
         self.label_4.setObjectName(u"label_4")
 
         self.horizontalLayout_3.addWidget(self.label_4)
 
-        self.StuNum_lineEdit = QLineEdit(self.widget)
+        self.StuNum_lineEdit = QLineEdit(self.layoutWidget)
         self.StuNum_lineEdit.setObjectName(u"StuNum_lineEdit")
 
         self.horizontalLayout_3.addWidget(self.StuNum_lineEdit)
@@ -132,18 +132,18 @@ class Ui_Admin_Window(object):
 
         self.verticalLayout_3.addLayout(self.horizontalLayout_3)
 
-        self.Query_Button = QPushButton(self.widget)
+        self.Query_Button = QPushButton(self.layoutWidget)
         self.Query_Button.setObjectName(u"Query_Button")
 
         self.verticalLayout_3.addWidget(self.Query_Button)
 
-        self.layoutWidget = QWidget(Admin_Window)
-        self.layoutWidget.setObjectName(u"layoutWidget")
-        self.layoutWidget.setGeometry(QRect(10, 330, 165, 159))
-        self.verticalLayout_4 = QVBoxLayout(self.layoutWidget)
+        self.layoutWidget1 = QWidget(Admin_Window)
+        self.layoutWidget1.setObjectName(u"layoutWidget1")
+        self.layoutWidget1.setGeometry(QRect(10, 330, 165, 159))
+        self.verticalLayout_4 = QVBoxLayout(self.layoutWidget1)
         self.verticalLayout_4.setObjectName(u"verticalLayout_4")
         self.verticalLayout_4.setContentsMargins(0, 0, 0, 0)
-        self.label_6 = QLabel(self.layoutWidget)
+        self.label_6 = QLabel(self.layoutWidget1)
         self.label_6.setObjectName(u"label_6")
         self.label_6.setAlignment(Qt.AlignCenter)
 
@@ -151,12 +151,12 @@ class Ui_Admin_Window(object):
 
         self.horizontalLayout_4 = QHBoxLayout()
         self.horizontalLayout_4.setObjectName(u"horizontalLayout_4")
-        self.label_7 = QLabel(self.layoutWidget)
+        self.label_7 = QLabel(self.layoutWidget1)
         self.label_7.setObjectName(u"label_7")
 
         self.horizontalLayout_4.addWidget(self.label_7)
 
-        self.Course_lineEdit = QLineEdit(self.layoutWidget)
+        self.Course_lineEdit = QLineEdit(self.layoutWidget1)
         self.Course_lineEdit.setObjectName(u"Course_lineEdit")
 
         self.horizontalLayout_4.addWidget(self.Course_lineEdit)
@@ -164,26 +164,53 @@ class Ui_Admin_Window(object):
 
         self.verticalLayout_4.addLayout(self.horizontalLayout_4)
 
-        self.Query_Course_Button = QPushButton(self.layoutWidget)
+        self.Query_Course_Button = QPushButton(self.layoutWidget1)
         self.Query_Course_Button.setObjectName(u"Query_Course_Button")
 
         self.verticalLayout_4.addWidget(self.Query_Course_Button)
 
         self.layoutWidget_2 = QWidget(Admin_Window)
         self.layoutWidget_2.setObjectName(u"layoutWidget_2")
-        self.layoutWidget_2.setGeometry(QRect(10, 500, 165, 81))
+        self.layoutWidget_2.setGeometry(QRect(10, 720, 165, 81))
         self.verticalLayout_5 = QVBoxLayout(self.layoutWidget_2)
         self.verticalLayout_5.setObjectName(u"verticalLayout_5")
         self.verticalLayout_5.setContentsMargins(0, 0, 0, 0)
-        self.Query_Score_Button = QPushButton(self.layoutWidget_2)
-        self.Query_Score_Button.setObjectName(u"Query_Score_Button")
-
-        self.verticalLayout_5.addWidget(self.Query_Score_Button)
-
         self.Query_Score_Rank_Button = QPushButton(self.layoutWidget_2)
         self.Query_Score_Rank_Button.setObjectName(u"Query_Score_Rank_Button")
 
         self.verticalLayout_5.addWidget(self.Query_Score_Rank_Button)
+
+        self.layoutWidget_3 = QWidget(Admin_Window)
+        self.layoutWidget_3.setObjectName(u"layoutWidget_3")
+        self.layoutWidget_3.setGeometry(QRect(10, 500, 165, 159))
+        self.verticalLayout_6 = QVBoxLayout(self.layoutWidget_3)
+        self.verticalLayout_6.setObjectName(u"verticalLayout_6")
+        self.verticalLayout_6.setContentsMargins(0, 0, 0, 0)
+        self.label_8 = QLabel(self.layoutWidget_3)
+        self.label_8.setObjectName(u"label_8")
+        self.label_8.setAlignment(Qt.AlignCenter)
+
+        self.verticalLayout_6.addWidget(self.label_8)
+
+        self.horizontalLayout_5 = QHBoxLayout()
+        self.horizontalLayout_5.setObjectName(u"horizontalLayout_5")
+        self.label_9 = QLabel(self.layoutWidget_3)
+        self.label_9.setObjectName(u"label_9")
+
+        self.horizontalLayout_5.addWidget(self.label_9)
+
+        self.FindScore_lineEdit = QLineEdit(self.layoutWidget_3)
+        self.FindScore_lineEdit.setObjectName(u"FindScore_lineEdit")
+
+        self.horizontalLayout_5.addWidget(self.FindScore_lineEdit)
+
+
+        self.verticalLayout_6.addLayout(self.horizontalLayout_5)
+
+        self.Query_Score_Button = QPushButton(self.layoutWidget_3)
+        self.Query_Score_Button.setObjectName(u"Query_Score_Button")
+
+        self.verticalLayout_6.addWidget(self.Query_Score_Button)
 
 
         self.retranslateUi(Admin_Window)
@@ -202,13 +229,15 @@ class Ui_Admin_Window(object):
         self.Add_Button.setText(QCoreApplication.translate("Admin_Window", u"\u6dfb\u52a0", None))
         self.Del_Button.setText(QCoreApplication.translate("Admin_Window", u"\u5220\u9664", None))
         self.Output_Button.setText(QCoreApplication.translate("Admin_Window", u"\u5bfc\u51fa\u5f53\u524d\u8868", None))
-        self.label_5.setText(QCoreApplication.translate("Admin_Window", u"\u5b66\u751f\u6210\u7ee9\u4fe1\u606f\u67e5\u8be2", None))
-        self.label_4.setText(QCoreApplication.translate("Admin_Window", u"\u5b66\u53f7", None))
+        self.label_5.setText(QCoreApplication.translate("Admin_Window", u"\u5b66\u751f\u4fe1\u606f\u67e5\u8be2", None))
+        self.label_4.setText(QCoreApplication.translate("Admin_Window", u"\u6a21\u7cca\u641c\u7d22", None))
         self.Query_Button.setText(QCoreApplication.translate("Admin_Window", u"\u4fe1\u606f\u67e5\u8be2", None))
         self.label_6.setText(QCoreApplication.translate("Admin_Window", u"\u5f00\u8bfe\u4fe1\u606f\u67e5\u8be2", None))
-        self.label_7.setText(QCoreApplication.translate("Admin_Window", u"\u8bfe\u7a0b\u6a21\u7cca\u641c\u7d22", None))
+        self.label_7.setText(QCoreApplication.translate("Admin_Window", u"\u6a21\u7cca\u641c\u7d22", None))
         self.Query_Course_Button.setText(QCoreApplication.translate("Admin_Window", u"\u5f00\u8bfe\u4fe1\u606f\u67e5\u8be2", None))
-        self.Query_Score_Button.setText(QCoreApplication.translate("Admin_Window", u"\u6210\u7ee9\u603b\u8868\u67e5\u8be2", None))
         self.Query_Score_Rank_Button.setText(QCoreApplication.translate("Admin_Window", u"\u6210\u7ee9\u6392\u540d\u67e5\u8be2", None))
+        self.label_8.setText(QCoreApplication.translate("Admin_Window", u"\u6210\u7ee9\u4fe1\u606f\u67e5\u8be2", None))
+        self.label_9.setText(QCoreApplication.translate("Admin_Window", u"\u6a21\u7cca\u641c\u7d22", None))
+        self.Query_Score_Button.setText(QCoreApplication.translate("Admin_Window", u"\u6210\u7ee9\u67e5\u8be2", None))
     # retranslateUi
 
