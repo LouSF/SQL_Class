@@ -10,7 +10,7 @@ BEGIN
     USING (
         SELECT
             StuInfo.StuNum,
-            ISNULL(SUM(StuSelInfo.StuScoreS), 0) AS total_score,
+            SUM(StuSelInfo.StuScoreS) AS total_score,
             StuInfo.StuName,
             StuInfo.StuClass
         FROM
