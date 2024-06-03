@@ -27,6 +27,19 @@ class SQLFiles_E(Enum):
     Student_Course_Query = 'SQL_lib/Student_Course_Query.sql'
     Admin_Score_All_Query = 'SQL_lib/Admin_Score_All_Query.sql'
     Student_Rank_Query = 'SQL_lib/Student_Rank_Query.sql'
+
+    Admin_Add_Course = 'SQL_lib/Admin_Add_Course.sql'
+    Admin_Add_StuInfo = 'SQL_lib/Admin_Add_StuInfo.sql'
+    Admin_Add_StuSel = 'SQL_lib/Admin_Add_StuSel.sql'
+
+    Admin_Del_Course = 'SQL_lib/Admin_Del_Course.sql'
+    Admin_Del_StuInfo = 'SQL_lib/Admin_Del_StuInfo.sql'
+    Admin_Del_StuSel = 'SQL_lib/Admin_Del_StuSel.sql'
+
+    Admin_Change_Course = 'SQL_lib/Admin_Change_Course.sql'
+    Admin_Change_StuInfo = 'SQL_lib/Admin_Change_StuInfo.sql'
+    Admin_Change_StuSel = 'SQL_lib/Admin_Change_StuSel.sql'
+
     NONE = None
 
 def read_sql_file(file_enum: SQLFiles_E):

@@ -74,20 +74,20 @@ class Ui_Admin_Window(object):
         self.horizontalLayout = QHBoxLayout(self.horizontalLayoutWidget_2)
         self.horizontalLayout.setObjectName(u"horizontalLayout")
         self.horizontalLayout.setContentsMargins(0, 0, 0, 0)
-        self.StudentInfoM_Button = QPushButton(self.horizontalLayoutWidget_2)
-        self.StudentInfoM_Button.setObjectName(u"StudentInfoM_Button")
+        self.Change_Button = QPushButton(self.horizontalLayoutWidget_2)
+        self.Change_Button.setObjectName(u"Change_Button")
 
-        self.horizontalLayout.addWidget(self.StudentInfoM_Button)
+        self.horizontalLayout.addWidget(self.Change_Button)
 
-        self.StudentScoreM_Button = QPushButton(self.horizontalLayoutWidget_2)
-        self.StudentScoreM_Button.setObjectName(u"StudentScoreM_Button")
+        self.Add_Button = QPushButton(self.horizontalLayoutWidget_2)
+        self.Add_Button.setObjectName(u"Add_Button")
 
-        self.horizontalLayout.addWidget(self.StudentScoreM_Button)
+        self.horizontalLayout.addWidget(self.Add_Button)
 
-        self.Advance_Button = QPushButton(self.horizontalLayoutWidget_2)
-        self.Advance_Button.setObjectName(u"Advance_Button")
+        self.Del_Button = QPushButton(self.horizontalLayoutWidget_2)
+        self.Del_Button.setObjectName(u"Del_Button")
 
-        self.horizontalLayout.addWidget(self.Advance_Button)
+        self.horizontalLayout.addWidget(self.Del_Button)
 
         self.Output_Button = QPushButton(self.horizontalLayoutWidget_2)
         self.Output_Button.setObjectName(u"Output_Button")
@@ -198,9 +198,9 @@ class Ui_Admin_Window(object):
         self.label.setText(QCoreApplication.translate("Admin_Window", u"\u7ba1\u7406\u5458\u6a21\u5f0f", None))
         self.Logout_Button.setText(QCoreApplication.translate("Admin_Window", u"Logout", None))
         self.label_2.setText("")
-        self.StudentInfoM_Button.setText(QCoreApplication.translate("Admin_Window", u"\u5b66\u751f\u4fe1\u606f\u7ba1\u7406", None))
-        self.StudentScoreM_Button.setText(QCoreApplication.translate("Admin_Window", u"\u5b66\u751f\u6210\u7ee9\u7ba1\u7406", None))
-        self.Advance_Button.setText(QCoreApplication.translate("Admin_Window", u"\u9ad8\u7ea7\u6a21\u5f0f", None))
+        self.Change_Button.setText(QCoreApplication.translate("Admin_Window", u"\u4fee\u6539", None))
+        self.Add_Button.setText(QCoreApplication.translate("Admin_Window", u"\u6dfb\u52a0", None))
+        self.Del_Button.setText(QCoreApplication.translate("Admin_Window", u"\u5220\u9664", None))
         self.Output_Button.setText(QCoreApplication.translate("Admin_Window", u"\u5bfc\u51fa\u5f53\u524d\u8868", None))
         self.label_5.setText(QCoreApplication.translate("Admin_Window", u"\u5b66\u751f\u6210\u7ee9\u4fe1\u606f\u67e5\u8be2", None))
         self.label_4.setText(QCoreApplication.translate("Admin_Window", u"\u5b66\u53f7", None))

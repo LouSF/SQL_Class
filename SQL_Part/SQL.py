@@ -159,3 +159,102 @@ class SQL:
         except pyodbc.Error as e:
             print(f"Error executing query: {e}")
             return None
+
+    def Admin_Add_Course(self, CourseNo: str, CourseName: str, Score: int):
+        try:
+            SQL_Add_Course = read_sql_file(SQLFiles_E.Admin_Add_Course)
+            self.cursor.execute(SQL_Add_Course, (CourseNo, CourseName, Score))
+            self.conn.commit()
+            print("Course added successfully")
+            return True
+        except pyodbc.Error as e:
+            print(f"Error adding course: {e}")
+            return None
+
+    def Admin_Add_Student(self, StuNum: str, StuName: str, StuSex: str, StuClass: str, StuAge: str):
+        try:
+            SQL_Add_Student = read_sql_file(SQLFiles_E.Admin_Add_StuInfo)
+            self.cursor.execute(SQL_Add_Student, (StuNum, StuName, StuSex, StuClass, StuAge))
+            self.conn.commit()
+            print("Student added successfully")
+            return True
+        except pyodbc.Error as e:
+            print(f"Error adding student: {e}")
+            return None
+
+    def Admin_Add_StuSel(self, StuNum: str, CourseNo: str, Score: int):
+        try:
+            SQL_Add_StuSel = read_sql_file(SQLFiles_E.Admin_Add_StuSel)
+            self.cursor.execute(SQL_Add_StuSel, (StuNum, CourseNo, Score))
+            self.conn.commit()
+            print("Student selection added successfully")
+            return True
+        except pyodbc.Error as e:
+            print(f"Error adding student selection: {e}")
+            return None
+
+    def Admin_Del_Course(self, CourseNo: str):
+        try:
+            SQL_Del_Course = read_sql_file(SQLFiles_E.Admin_Del_Course)
+            self.cursor.execute(SQL_Del_Course, CourseNo)
+            self.conn.commit()
+            print("Course deleted successfully")
+            return True
+        except pyodbc.Error as e:
+            print(f"Error deleting course: {e}")
+            return None
+
+    def Admin_Del_Student(self, StuNum: str):
+        try:
+            SQL_Del_Student = read_sql_file(SQLFiles_E.Admin_Del_StuInfo)
+            self.cursor.execute(SQL_Del_Student, StuNum)
+            self.conn.commit()
+            print("Student deleted successfully")
+            return True
+        except pyodbc.Error as e:
+            print(f"Error deleting student: {e}")
+            return None
+
+    def Admin_Del_StuSel(self, StuNum: str, CourseNo: str):
+        try:
+            SQL_Del_StuSel = read_sql_file(SQLFiles_E.Admin_Del_StuSel)
+            self.cursor.execute(SQL_Del_StuSel, (StuNum, CourseNo))
+            self.conn.commit()
+            print("Student selection deleted successfully")
+            return True
+        except pyodbc.Error as e:
+            print(f"Error deleting student selection: {e}")
+            return None
+
+    def Admin_Change_Course(self, CourseNo: str, NewCourseName: str, NewScore: int):
+        try:
+            SQL_Change_Course = read_sql_file(SQLFiles_E.Admin_Change_Course)
+            self.cursor.execute(SQL_Change_Course, (NewCourseName, NewScore, CourseNo))
+            self.conn.commit()
+            print("Course changed successfully")
+            return True
+        except pyodbc.Error as e:
+            print(f"Error changing course: {e}")
+            return None
+
+    def Admin_Change_Student(self, StuNum: str, StuName: str, StuSex: str, StuClass: str, StuAge: str):
+        try:
+            SQL_Change_Student = read_sql_file(SQLFiles_E.Admin_Change_StuInfo)
+            self.cursor.execute(SQL_Change_Student, (StuName, StuSex, StuClass, StuAge, StuNum))
+            self.conn.commit()
+            print("Student changed successfully")
+            return True
+        except pyodbc.Error as e:
+            print(f"Error changing student: {e}")
+            return None
+
+    def Admin_Change_StuSel(self, StuNum: str, CourseNo: str, NewScore: int):
+        try:
+            SQL_Change_StuSel = read_sql_file(SQLFiles_E.Admin_Change_StuSel)
+            self.cursor.execute(SQL_Change_StuSel, (NewScore, StuNum, CourseNo))
+            self.conn.commit()
+            print("Student selection changed successfully")
+            return True
+        except pyodbc.Error as e:
+            print(f"Error changing student selection: {e}")
+            return None
