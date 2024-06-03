@@ -53,6 +53,7 @@ class Admin_Windows(QWidget):
 
 
         self.state = self.Table_State_E.NONE
+        self.Add_state = False
 
     def populate_table_view(self, df, table_view):
         model = QStandardItemModel()
@@ -184,65 +185,84 @@ class Admin_Windows(QWidget):
             QMessageBox.information(self, "提示", "请在表格中输入新数据，然后点击确认按钮以保存到数据库。")
             if self.state == self.Table_State_E.Student_Sel:
                 QMessageBox.information(self, "Attation", "只有‘学号’， ‘课程号’， ‘成绩’参与添加判断")
+            self.Add_state = True
 
     def on_button_clicked_Confirm_Add_Button(self):
-        if self.state == self.Table_State_E.NONE:
-            self._Undef_change_Warning()
-        elif self.state == self.Table_State_E.Rank:
-            self._Rank_change_Warning()
+        if self.Add_state == True:
+            if self.state == self.Table_State_E.NONE:
+                self._Undef_change_Warning()
+            elif self.state == self.Table_State_E.Rank:
+                self._Rank_change_Warning()
+            else:
+                row_position = self.ui.tableView.selectionModel().currentIndex().row()
+                if self.state == self.Table_State_E.Student_Sel:
+                    new_data = self.collect_data_from_row(row_position, ['学号', '姓名', '班级', '课程', '课程代码', '成绩'])
+                    print(new_data)
+                    if new_data:
+                        StuNum, _, _, _, CourseNo, Score = new_data
+
+                        try:
+                            Score = int(Score)
+                        except ValueError:
+                            QMessageBox.critical(self, "Error", "成绩必须是Int")
+
+                        if self.StudentNum_Judge(StuNum) == False:
+                            QMessageBox.critical(self, "Error", "ID不是预期的格式：10位纯数字")
+                        if self.Score_Judge(Score) == False:
+                            QMessageBox.critical(self, "Error", "成绩需要介于[0, 100]")
+                        else:
+                            if self.conn.Admin_Add_StuSel(StuNum, CourseNo, Score):
+                                QMessageBox.information(self, "Success", "添加成功")
+                                self.on_button_clicked_Query_Score_Button()
+                            else:
+                                self._UNABLE_change_Warning()
+                elif self.state == self.Table_State_E.Student_Info:
+                    new_data = self.collect_data_from_row(row_position, ["学号", "姓名", "性别", "班级", "年龄"])
+                    print(new_data)
+                    if new_data:
+                        StuNum, StuName, StuSex, StuClass, StuAge = new_data
+
+                        try:
+                            StuAge = int(StuAge)
+                        except ValueError:
+                            QMessageBox.critical(self, "Error", "年龄必须是Int")
+
+                        StuSex = StuSex.split()
+
+                        if self.StudentNum_Judge(StuNum) == False:
+                            QMessageBox.critical(self, "Error", "ID不是预期的格式：10位纯数字")
+                        elif self.Gender_Judge(StuSex) == False:
+                            QMessageBox.critical(self, "Error", "性别输入错误")
+                        elif self.Score_Judge(StuAge) == False:
+                            QMessageBox.critical(self, "Error", "年龄输入错误")
+                        else:
+                            if self.conn.Admin_Add_Student(StuNum, StuName, StuSex, StuClass, StuAge):
+                                QMessageBox.information(self, "Success", "添加成功")
+                                self.on_button_clicked_StuInfo_Query_Button()
+                            else:
+                                self._UNABLE_change_Warning()
+                elif self.state == self.Table_State_E.Course:
+                    new_data = self.collect_data_from_row(row_position, ["课程代码", "课程名", "学分"])
+                    print(new_data)
+                    if new_data:
+                        CourseNo, CourseName, Credit = new_data
+
+                        try:
+                            Credit = int(Credit)
+                        except ValueError:
+                            QMessageBox.critical(self, "Error", "学分必须是Int")
+
+                        if type(Credit) != int:
+                            pass
+                        else:
+                            if self.conn.Admin_Add_Course(CourseNo, CourseName, Credit):
+                                QMessageBox.information(self, "Success", "添加成功")
+                                self.on_button_clicked_Query_Course_Button()
+                            else:
+                                self._UNABLE_change_Warning()
+            self.Add_state = False
         else:
-            row_position = self.ui.tableView.selectionModel().currentIndex().row()
-            if self.state == self.Table_State_E.Student_Sel:
-                new_data = self.collect_data_from_row(row_position, ['学号', '姓名', '班级', '课程', '课程代码', '成绩'])
-                print(new_data)
-                if new_data:
-                    StuNum, _, _, _, CourseNo, Score = new_data
-                    if self.StudentNum_Judge(StuNum) == False:
-                        QMessageBox.critical(self, "Error", "ID不是预期的格式：10位纯数字")
-                    if self.Score_Judge(Score) == False:
-                        QMessageBox.critical(self, "Error", "成绩需要介于[0, 100]")
-                    else:
-                        if self.conn.Admin_Add_StuSel(StuNum, CourseNo, Score):
-                            QMessageBox.information(self, "Success", "添加成功")
-                            self.on_button_clicked_Query_Score_Button()
-                        else:
-                            self._UNABLE_change_Warning()
-            elif self.state == self.Table_State_E.Student_Info:
-                new_data = self.collect_data_from_row(row_position, ["学号", "姓名", "性别", "班级", "年龄"])
-                print(new_data)
-                if new_data:
-                    StuNum, StuName, StuSex, StuClass, StuAge = new_data
-                    if self.StudentNum_Judge(StuNum) == False:
-                        QMessageBox.critical(self, "Error", "ID不是预期的格式：10位纯数字")
-                    elif self.Gender_Judge(StuSex) == False:
-                        QMessageBox.critical(self, "Error", "性别输入错误")
-                    elif self.Score_Judge(StuAge) == False:
-                        QMessageBox.critical(self, "Error", "年龄输入错误")
-                    else:
-                        if self.conn.Admin_Add_Student(StuNum, StuName, StuSex, StuClass, StuAge):
-                            QMessageBox.information(self, "Success", "添加成功")
-                            self.on_button_clicked_StuInfo_Query_Button()
-                        else:
-                            self._UNABLE_change_Warning()
-            elif self.state == self.Table_State_E.Course:
-                new_data = self.collect_data_from_row(row_position, ["课程代码", "课程名", "学分"])
-                print(new_data)
-                if new_data:
-                    CourseNo, CourseName, Credit = new_data
-
-                    try:
-                        Credit = int(Credit)
-                    except ValueError:
-                        QMessageBox.critical(self, "Error", "学分必须是Int")
-
-                    if type(Credit) != int:
-                        pass
-                    else:
-                        if self.conn.Admin_Add_Course(CourseNo, CourseName, Credit):
-                            QMessageBox.information(self, "Success", "添加成功")
-                            self.on_button_clicked_Query_Course_Button()
-                        else:
-                            self._UNABLE_change_Warning()
+            QMessageBox.critical(self, "Error", "需先执行添加行操作")
 
     def collect_data_from_row(self, row, column_names):
         model = self.ui.tableView.model()
@@ -334,7 +354,9 @@ class Admin_Windows(QWidget):
                 if self.state == self.Table_State_E.Student_Sel:
                     QMessageBox.information(self, "Attation", "在本表中只有修改成绩是有效的，其它参数的修改在对应表")
                     new_data = self.collect_data_from_row(row, ['学号', '姓名', '班级', '课程', '课程代码', '成绩'])
+                    print(new_data)
                     if new_data:
+                        print(new_data)
                         StuNum, _, _, _, CourseNo, Score = new_data
                         if self.conn.LoginPage_Register_Query(StuNum) == False:
                             QMessageBox.critical(self, "Error", "在本次操作中不允许修改学号，它用于定位记录")
@@ -347,8 +369,18 @@ class Admin_Windows(QWidget):
                                 self._UNABLE_change_Warning()
                 elif self.state == self.Table_State_E.Student_Info:
                     new_data = self.collect_data_from_row(row, ["学号", "姓名", "性别", "班级", "年龄"])
+                    print(new_data)
                     if new_data:
                         StuNum, StuName, StuGender, StuClass, StuAge = new_data
+
+                        StuGender = StuGender.split()
+                        StuGender = StuGender[0]
+
+                        try:
+                            StuAge = int(StuAge)
+                        except ValueError:
+                            QMessageBox.critical(self, "Error", "年龄必须是Int")
+
                         if self.conn.LoginPage_Register_Query(StuNum) == False:
                             QMessageBox.critical(self, "Error", "在本次操作中不允许修改学号，它用于定位记录")
                         elif self.Gender_Judge(StuGender) == False:
@@ -362,6 +394,7 @@ class Admin_Windows(QWidget):
                                 self._UNABLE_change_Warning()
                 elif self.state == self.Table_State_E.Course:
                     new_data = self.collect_data_from_row(row, ["课程代码", "课程名", "学分"])
+                    print(new_data)
                     if new_data:
                         CourseNo, CourseName, Credit = new_data
 
