@@ -9,6 +9,7 @@ from PySide6.QtWidgets import QApplication, QWidget, QPushButton, QMessageBox
 #     pyside2-uic Login_window.ui -o ui_Login_window.py
 from ui_Login_window import Ui_Login_windows
 
+import hashlib
 from SQL_Part.SQL import *
 from Student_Windows import *
 from Admin_window import *
@@ -70,7 +71,7 @@ class Login_Window(QWidget):
                                                QMessageBox.Yes | QMessageBox.No)
         if QMessage_result == QMessageBox.Yes:
             if self.Password_Judge(password) == True:
-                RegisterR = self.conn.LoginPage_Register(username, password, True)
+                RegisterR = self.conn.LoginPage_Register(username, hashlib.md5(password.encode(encoding='UTF-8')).hexdigest(), True)
                 if RegisterR is None:
                     QMessageBox.critical(self, "ERROR", "已存在账号！注册终止")
                 else:
@@ -84,7 +85,7 @@ class Login_Window(QWidget):
                                                            QMessageBox.Yes | QMessageBox.No)
 
                 if RegisterQ == True or QMessage_result == QMessageBox.Yes:
-                    RegisterR = self.conn.LoginPage_Register(username, password, False)
+                    RegisterR = self.conn.LoginPage_Register(username, hashlib.md5(password.encode(encoding='UTF-8')).hexdigest(), False)
 
                     if RegisterR is None:
                         QMessageBox.critical(self, "ERROR", "已存在账号！注册终止")
@@ -96,7 +97,7 @@ class Login_Window(QWidget):
     def on_button_clicked_Login_Button(self):
         username = self.ui.User_lineEdit.text()
         password = self.ui.Password_lineEdit.text()
-        LoginR = self.conn.LoginPage_Login(username, password)
+        LoginR = self.conn.LoginPage_Login(username, hashlib.md5(password.encode(encoding='UTF-8')).hexdigest())
 
         if LoginR is None:
             QMessageBox.critical(self, "ERROR", "账号或密码错误！")
