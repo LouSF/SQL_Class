@@ -78,7 +78,6 @@ class Students_Windows(QWidget):
 
     def on_button_clicked_Course_Output_Button(self):
         try:
-            # todo
             save_path = self.selectSavePath()
             if save_path:
                 self.df_CourseQ.to_csv(save_path, index=False, encoding='utf-8')
