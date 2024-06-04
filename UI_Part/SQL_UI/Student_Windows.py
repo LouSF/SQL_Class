@@ -35,7 +35,7 @@ class Students_Windows(QWidget):
             ScoreQ = self.conn.StuPage_Student_Score_Query(Message_ID[0])
             ScoreQ = [list(elem) for elem in ScoreQ]
             print(ScoreQ)
-            self.df_ScoreQ = pd.DataFrame(ScoreQ, columns= ['学号', '姓名', '班级', '课程', '成绩'])
+            self.df_ScoreQ = pd.DataFrame(ScoreQ, columns= ['学号', '姓名', '班级', '课程', '课程代码', '成绩'])
             self.populate_table_view(self.df_ScoreQ, self.ui.Score_tableView)
 
             CourseQ = self.conn.StuPage_Student_Course_Query()
@@ -78,6 +78,7 @@ class Students_Windows(QWidget):
 
     def on_button_clicked_Course_Output_Button(self):
         try:
+            # todo
             save_path = self.selectSavePath()
             if save_path:
                 self.df_CourseQ.to_csv(save_path, index=False, encoding='utf-8')
