@@ -228,6 +228,7 @@ class Admin_Windows(QWidget):
                             QMessageBox.critical(self, "Error", "年龄必须是Int")
 
                         StuSex = StuSex.split()
+                        StuSex = StuSex[0]
 
                         if self.StudentNum_Judge(StuNum) == False:
                             QMessageBox.critical(self, "Error", "ID不是预期的格式：10位纯数字")
@@ -257,10 +258,11 @@ class Admin_Windows(QWidget):
                         else:
                             if self.conn.Admin_Add_Course(CourseNo, CourseName, Credit):
                                 QMessageBox.information(self, "Success", "添加成功")
+                                self.Add_state = False
                                 self.on_button_clicked_Query_Course_Button()
                             else:
                                 self._UNABLE_change_Warning()
-            self.Add_state = False
+
         else:
             QMessageBox.critical(self, "Error", "需先执行添加行操作")
 
@@ -360,7 +362,7 @@ class Admin_Windows(QWidget):
                         StuNum, _, _, _, CourseNo, Score = new_data
                         if self.conn.LoginPage_Register_Query(StuNum) == False:
                             QMessageBox.critical(self, "Error", "在本次操作中不允许修改学号，它用于定位记录")
-                        if self.conn.StuPage_Student_Course_Query(CourseNo) == False:
+                        if self.conn.AdminPage_Student_Course_Query(CourseNo) == False:
                             QMessageBox.critical(self, "Error", "在本次操作中不允许修改课程代码，它用于定位记录")
                         else:
                             if self.conn.Admin_Change_StuSel(StuNum, CourseNo, Score):

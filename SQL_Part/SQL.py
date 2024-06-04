@@ -130,6 +130,25 @@ class SQL:
             print(f"Error executing query: {e}")
             return None
 
+    def AdminPage_Student_Course_Query(self, CourseNo: str = '%'):
+        try:
+            SQL_Admin_Course_Query = read_sql_file(SQLFiles_E.Admin_Course_Query)
+            print((CourseNo))
+            self.cursor.execute(SQL_Admin_Course_Query, CourseNo)
+
+            print(self.cursor)
+            result = self.cursor.fetchall()
+            print(result)
+            if result:
+                print("Course Query Succeed")
+                return result
+            else:
+                print("Unknown Error happen")
+                return False
+        except pyodbc.Error as e:
+            print(f"Error executing query: {e}")
+            return None
+
     def AdminPage_Admin_StuInfo_Query(self, StuNum: str = '%', StuName: str = '%', StuSex: str = '%', StuClass: str = '%', StuAge: str = '%'):
         try:
             SQL_Student_Course_Query = read_sql_file(SQLFiles_E.Admin_StuInfo_Query)
