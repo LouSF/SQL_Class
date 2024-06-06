@@ -295,3 +295,18 @@ class SQL:
         except pyodbc.Error as e:
             print(f"Error changing student selection: {e}")
             return None
+
+    def AdminPage_Admin_Add_Score_Query(self, StuNum: str, CourseNo: str):
+        try:
+            SQL_Admin_Add_Score_Query = read_sql_file(SQLFiles_E.Admin_Add_Score_Query)
+            self.cursor.execute(SQL_Admin_Add_Score_Query, (StuNum, CourseNo))
+            result = self.cursor.fetchone()
+            if result:
+                print("Score Query Succeed")
+                return result
+            else:
+                print("Unknown Error happen")
+                return False
+        except pyodbc.Error as e:
+            print(f"Error changing student: {e}")
+            return None

@@ -13,6 +13,7 @@ from PySide6.QtCore import Signal
 from SQL_Part.SQL import *
 from State import *
 import pandas as pd
+import Admin_Add
 import enum
 
 import re
@@ -50,6 +51,8 @@ class Admin_Windows(QWidget):
         self.ui.Finish_Input_Button.clicked.connect(self.on_button_clicked_Confirm_Add_Button)  # Finish Input
         self.ui.Del_Button.clicked.connect(self.on_button_clicked_Del_Button)
         self.ui.Change_Button.clicked.connect(self.on_button_clicked_Change_Button)
+
+        self.ui.Admin_Help.clicked.connect(self.on_button_Help_Button)
 
 
         self.state = self.Table_State_E.NONE
@@ -174,18 +177,22 @@ class Admin_Windows(QWidget):
         return QMessage_result
 
     def on_button_clicked_Add_Button(self):
-        if self.state == self.Table_State_E.NONE:
-            self._Undef_change_Warning()
-        elif self.state == self.Table_State_E.Rank:
-            self._Rank_change_Warning()
+        if self.Add_state == True:
+            QMessageBox.critical(self, "Error", "当前存在未完成的添加")
         else:
-            row_position = self.ui.tableView.model().rowCount()
-            self.ui.tableView.model().insertRow(row_position)
-            self.ui.tableView.selectRow(row_position)
-            QMessageBox.information(self, "提示", "请在表格中输入新数据，然后点击确认按钮以保存到数据库。")
-            if self.state == self.Table_State_E.Student_Sel:
-                QMessageBox.information(self, "Attation", "只有‘学号’， ‘课程号’， ‘成绩’参与添加判断")
-            self.Add_state = True
+            if self.state == self.Table_State_E.NONE:
+                self._Undef_change_Warning()
+            elif self.state == self.Table_State_E.Rank:
+                self._Rank_change_Warning()
+            elif self.state == self.Table_State_E.Student_Sel:
+                self.Addwindows = Admin_Add.AdminPage_Admin_Add(self.conn)
+                self.Addwindows.show()
+            else:
+                row_position = self.ui.tableView.model().rowCount()
+                self.ui.tableView.model().insertRow(row_position)
+                self.ui.tableView.selectRow(row_position)
+                QMessageBox.information(self, "提示", "请在表格中输入新数据，然后点击确认按钮以保存到数据库。")
+                self.Add_state = True
 
     def on_button_clicked_Confirm_Add_Button(self):
         if self.Add_state == True:
@@ -213,6 +220,7 @@ class Admin_Windows(QWidget):
                         else:
                             if self.conn.Admin_Add_StuSel(StuNum, CourseNo, Score):
                                 QMessageBox.information(self, "Success", "添加成功")
+                                self.Add_state = False
                                 self.on_button_clicked_Query_Score_Button()
                             else:
                                 self._UNABLE_change_Warning()
@@ -239,6 +247,7 @@ class Admin_Windows(QWidget):
                         else:
                             if self.conn.Admin_Add_Student(StuNum, StuName, StuSex, StuClass, StuAge):
                                 QMessageBox.information(self, "Success", "添加成功")
+                                self.Add_state = False
                                 self.on_button_clicked_StuInfo_Query_Button()
                             else:
                                 self._UNABLE_change_Warning()
@@ -423,5 +432,13 @@ class Admin_Windows(QWidget):
     def closeEvent(self, event):
         self.closed.emit()  # Emit the custom signal
         super().closeEvent(event)
+
+    def on_button_Help_Button(self):
+        QMessage_result = QMessageBox.question(self, "Help",
+                                               "有我在你不需要Help",
+                                               QMessageBox.Yes | QMessageBox.No)
+        if QMessage_result == QMessageBox.No:
+            QMessageBox.information(self, "Help", "目前在管理员界面\n管理员界面允许修改任何记录，谨慎操作\n各个模块的使用见相关注释")
+
 
 

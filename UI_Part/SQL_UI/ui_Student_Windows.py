@@ -123,6 +123,9 @@ class Ui_Students_Windows(object):
 
         self.verticalLayout_4.addWidget(self.Course_tableView)
 
+        self.User_Help = QPushButton(Students_Windows)
+        self.User_Help.setObjectName(u"User_Help")
+        self.User_Help.setGeometry(QRect(10, 0, 21, 31))
 
         self.retranslateUi(Students_Windows)
 
@@ -141,5 +144,6 @@ class Ui_Students_Windows(object):
         self.Score_Output_Button.setText(QCoreApplication.translate("Students_Windows", u"\u5bfc\u51fa\u6210\u7ee9\u60c5\u51b5", None))
         self.label_5.setText(QCoreApplication.translate("Students_Windows", u"\u6210\u7ee9\u60c5\u51b5", None))
         self.label_8.setText(QCoreApplication.translate("Students_Windows", u"\u5f00\u8bfe\u60c5\u51b5", None))
+        self.User_Help.setText(QCoreApplication.translate("Students_Windows", u"?", None))
     # retranslateUi
 

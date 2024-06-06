@@ -217,6 +217,9 @@ class Ui_Admin_Window(object):
 
         self.verticalLayout_6.addWidget(self.Query_Score_Button)
 
+        self.Admin_Help = QPushButton(Admin_Window)
+        self.Admin_Help.setObjectName(u"Admin_Help")
+        self.Admin_Help.setGeometry(QRect(10, 0, 21, 31))
 
         self.retranslateUi(Admin_Window)
 
@@ -245,5 +248,6 @@ class Ui_Admin_Window(object):
         self.label_8.setText(QCoreApplication.translate("Admin_Window", u"\u6210\u7ee9\u4fe1\u606f\u67e5\u8be2", None))
         self.label_9.setText(QCoreApplication.translate("Admin_Window", u"\u6a21\u7cca\u641c\u7d22", None))
         self.Query_Score_Button.setText(QCoreApplication.translate("Admin_Window", u"\u6210\u7ee9\u67e5\u8be2", None))
+        self.Admin_Help.setText(QCoreApplication.translate("Admin_Window", u"?", None))
     # retranslateUi
 

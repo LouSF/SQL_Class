@@ -29,6 +29,7 @@ class Login_Window(QWidget):
 
         self.ui.Login_Button.clicked.connect(self.on_button_clicked_Login_Button)
         self.ui.Register_Button.clicked.connect(self.on_button_clicked_Register_Button)
+        self.ui.Login_Help.clicked.connect(self.on_button_Help_Button)
 
     def OpenWindows(self, Message_ID):
         if Message_ID[2] == False:
@@ -105,3 +106,10 @@ class Login_Window(QWidget):
             QMessageBox.information(self, "SUCCEED", "登录成功！")
             self.hide()
             self.OpenWindows(LoginR)
+
+    def on_button_Help_Button(self):
+        QMessage_result = QMessageBox.question(self, "Help",
+                                               "有我在你不需要Help",
+                                               QMessageBox.Yes | QMessageBox.No)
+        if QMessage_result == QMessageBox.No:
+            QMessageBox.information(self, "Help", "密码长度必须大于6位，包括大小写特殊字符\n学生信息，需要学号与用户名统一，否则无法查询")

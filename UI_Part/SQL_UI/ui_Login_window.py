@@ -83,6 +83,9 @@ class Ui_Login_windows(object):
 
         self.horizontalLayout_3.addLayout(self.verticalLayout_2)
 
+        self.Login_Help = QPushButton(Login_windows)
+        self.Login_Help.setObjectName(u"Login_Help")
+        self.Login_Help.setGeometry(QRect(0, 190, 21, 31))
 
         self.retranslateUi(Login_windows)
 
@@ -95,5 +98,6 @@ class Ui_Login_windows(object):
         self.Register_Button.setText(QCoreApplication.translate("Login_windows", u"\u6ce8\u518c", None))
         self.label.setText(QCoreApplication.translate("Login_windows", u"\u7528\u6237\u540d", None))
         self.label_3.setText(QCoreApplication.translate("Login_windows", u"Password", None))
+        self.Login_Help.setText(QCoreApplication.translate("Login_windows", u"?", None))
     # retranslateUi
 

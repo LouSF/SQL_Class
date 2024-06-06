@@ -57,6 +57,7 @@ class Students_Windows(QWidget):
         self.ui.Course_Output_Button.clicked.connect(self.on_button_clicked_Course_Output_Button)
         self.ui.Score_Output_Button.clicked.connect(self.on_button_clicked_Score_Output_Button)
         self.ui.Logout_Button.clicked.connect(self.on_button_clicked_Logout_Button)
+        self.ui.User_Help.clicked.connect(self.on_button_Help_Button)
 
     def populate_table_view(self, df, table_view):
         model = QStandardItemModel()
@@ -100,3 +101,11 @@ class Students_Windows(QWidget):
     def closeEvent(self, event):
         self.closed.emit()  # Emit the custom signal
         super().closeEvent(event)
+
+
+    def on_button_Help_Button(self):
+        QMessage_result = QMessageBox.question(self, "Help",
+                                               "有我在你不需要Help",
+                                               QMessageBox.Yes | QMessageBox.No)
+        if QMessage_result == QMessageBox.No:
+            QMessageBox.information(self, "Help", "目前在学生界面\n学生界面不允许修改任何记录，但是可以进行导出操作")

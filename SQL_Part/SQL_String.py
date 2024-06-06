@@ -33,6 +33,7 @@ class SQLFiles_E(Enum):
     Admin_Add_Course = 'SQL_lib/Admin_Add_Course.sql'
     Admin_Add_StuInfo = 'SQL_lib/Admin_Add_StuInfo.sql'
     Admin_Add_StuSel = 'SQL_lib/Admin_Add_StuSel.sql'
+    Admin_Add_Score_Query = 'SQL_lib/Admin_Add_Score_Query.sql'
 
     Admin_Del_Course = 'SQL_lib/Admin_Del_Course.sql'
     Admin_Del_StuInfo = 'SQL_lib/Admin_Del_StuInfo.sql'

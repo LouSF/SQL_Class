@@ -10,6 +10,7 @@
         "Admin_window.ui",
         "src.qrc",
         "img/t_logo.png",
-        "StuInfo.ui"
+        "StuInfo.ui",
+        "Admin_Add.ui"
     ]
 }
