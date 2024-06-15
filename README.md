@@ -7,5 +7,5 @@
 数据库为SQL Server
 ```
 sudo docker pull mcr.microsoft.com/mssql/server:2022-latest
-```bash
+``` bash
 运行以上命令安装。
