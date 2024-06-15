@@ -31,6 +31,7 @@ class Login_Window(QWidget):
         self.ui.Register_Button.clicked.connect(self.on_button_clicked_Register_Button)
         self.ui.Login_Help.clicked.connect(self.on_button_Help_Button)
 
+
     def OpenWindows(self, Message_ID):
         if Message_ID[2] == False:
             self.Swindows = Students_Windows(Message_ID)
