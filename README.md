@@ -11,3 +11,7 @@ sudo docker pull mcr.microsoft.com/mssql/server:2022-latest
 ```
 
 运行以上命令安装。
+
+UI使用 PyQt.
+
+这是一个基于Python的项目
